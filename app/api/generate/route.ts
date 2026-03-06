@@ -10,6 +10,16 @@ function getClient() {
   return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 }
 
+const rateLimit = new Map<string, { count: number; resetAt: number }>();
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimit.get(ip);
+  if (!entry || now > entry.resetAt) { rateLimit.set(ip, { count: 1, resetAt: now + 60000 }); return true; }
+  if (entry.count >= 20) return false;
+  entry.count++;
+  return true;
+}
+
 const APPS: Record<string, { name: string; desc: string; audience: string; features: string[]; url: string; price: string }> = {
   "claim-ai": {
     name: "AIクレーム対応文ジェネレーター",
@@ -78,6 +88,11 @@ const ANGLE_DESCRIPTIONS: Record<string, string> = {
 };
 
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for") || "unknown";
+  if (!checkRateLimit(ip)) {
+    return NextResponse.json({ error: "リクエストが多すぎます。しばらく待ってから再試行してください。" }, { status: 429 });
+  }
+
   const cookieStore = await cookies();
   const isPremium = cookieStore.get("stripe_premium")?.value === "1";
   const cookieCount = parseInt(cookieStore.get("gen_count")?.value ?? "0", 10);
