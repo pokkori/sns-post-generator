@@ -1,9 +1,14 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export const dynamic = "force-dynamic";
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const FREE_LIMIT = 3;
+
+function getClient() {
+  return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+}
 
 const APPS: Record<string, { name: string; desc: string; audience: string; features: string[]; url: string; price: string }> = {
   "claim-ai": {
@@ -73,10 +78,25 @@ const ANGLE_DESCRIPTIONS: Record<string, string> = {
 };
 
 export async function POST(req: NextRequest) {
-  const { appId, platform, angle, count } = await req.json();
+  const cookieStore = await cookies();
+  const isPremium = cookieStore.get("stripe_premium")?.value === "1";
+  const cookieCount = parseInt(cookieStore.get("gen_count")?.value ?? "0", 10);
 
-  const app = APPS[appId];
-  if (!app) return NextResponse.json({ error: "Invalid app" }, { status: 400 });
+  if (!isPremium && cookieCount >= FREE_LIMIT) {
+    return NextResponse.json({ error: "limit_reached" }, { status: 402 });
+  }
+
+  const { appId, customDesc, platform, angle, count } = await req.json();
+
+  let appInfo: { name: string; desc: string; audience: string; features: string[]; url: string; price: string };
+  if (appId === "custom") {
+    if (!customDesc) return NextResponse.json({ error: "No description" }, { status: 400 });
+    appInfo = { name: "あなたのサービス", desc: customDesc, audience: "ターゲットユーザー", features: [], url: "", price: "" };
+  } else {
+    const app = APPS[appId];
+    if (!app) return NextResponse.json({ error: "Invalid app" }, { status: 400 });
+    appInfo = app;
+  }
 
   const platformRule = PLATFORM_RULES[platform];
   const angleDesc = ANGLE_DESCRIPTIONS[angle];
@@ -87,12 +107,12 @@ export async function POST(req: NextRequest) {
   const prompt = `あなたはSNSマーケティングの専門家です。以下のWebサービスの${platform}向け投稿文を${num}パターン生成してください。
 
 【サービス情報】
-- サービス名: ${app.name}
-- 説明: ${app.desc}
-- ターゲット: ${app.audience}
-- 主な機能: ${app.features.join("、")}
-- URL: ${app.url}
-- 料金: ${app.price}
+- サービス名: ${appInfo.name}
+- 説明: ${appInfo.desc}
+- ターゲット: ${appInfo.audience}
+- 主な機能: ${appInfo.features.length > 0 ? appInfo.features.join("、") : "（説明文を参照）"}
+- URL: ${appInfo.url || "（省略）"}
+- 料金: ${appInfo.price || "（省略）"}
 
 【投稿ルール】
 ${platformRule}
@@ -103,14 +123,26 @@ ${angleDesc}
 【出力形式】
 各パターンを「---」で区切って出力してください。余計な説明や番号は不要です。投稿文のみを出力してください。`;
 
-  const message = await client.messages.create({
+  const message = await getClient().messages.create({
     model: "claude-haiku-4-5-20251001",
     max_tokens: 2000,
     messages: [{ role: "user", content: prompt }],
   });
 
   const text = message.content[0].type === "text" ? message.content[0].text : "";
-  const posts = text.split("---").map((p) => p.trim()).filter(Boolean);
+  const posts = text.split("---").map((p: string) => p.trim()).filter(Boolean);
+
+  if (!isPremium) {
+    const res = NextResponse.json({ posts, remaining: FREE_LIMIT - cookieCount - 1 });
+    res.cookies.set("gen_count", String(cookieCount + 1), {
+      httpOnly: true,
+      secure: true,
+      maxAge: 60 * 60 * 24 * 7,
+      path: "/",
+      sameSite: "lax",
+    });
+    return res;
+  }
 
   return NextResponse.json({ posts });
 }
