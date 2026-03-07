@@ -31,9 +31,9 @@ const APPS: Record<string, { name: string; desc: string; audience: string; featu
   },
   "ec-description-generator": {
     name: "AI商品説明文ジェネレーター",
-    desc: "商品名と特徴を入力するだけで、楽天・Amazon向けSEO最適化された商品説明文を瞬時に生成",
-    audience: "楽天・Amazon出品者、EC事業者、ネットショップ運営者",
-    features: ["楽天・Amazon両対応", "SEOキーワード自動抽出", "キャッチコピー＋詳細説明文を一括生成", "無料3回試せる"],
+    desc: "商品名と特徴を入力するだけで、楽天・Amazon・Yahoo!・メルカリ向けSEO最適化された商品説明文を一括生成。複数商品の一括生成にも対応",
+    audience: "楽天・Amazon・Yahoo!ショッピング・メルカリ出品者、EC事業者、ネットショップ運営者",
+    features: ["楽天・Amazon・Yahoo!・メルカリ対応", "SEOキーワード自動抽出", "複数商品を一括生成＆ダウンロード", "無料3回試せる"],
     url: "https://ec-description-generator.vercel.app",
     price: "無料3回 / スタンダード¥980/月 / ビジネス¥2,980/月",
   },
@@ -47,11 +47,11 @@ const APPS: Record<string, { name: string; desc: string; audience: string; featu
   },
   "shukatsu-ai": {
     name: "AI終活サポート",
-    desc: "終活に必要なことをAIが個別アドバイス。エンディングノート・相続・デジタル遺品・医療の意思表示をサポート",
+    desc: "終活に必要なことをAIが個別アドバイス。エンディングノート・相続・デジタル遺品・医療の意思表示を一括サポート。印刷してご家族と共有できる",
     audience: "50代・60代・70代、終活を考え始めた方、その家族",
-    features: ["エンディングノートの書き方", "相続・遺言のアドバイス", "デジタル遺品整理", "無料3回試せる"],
+    features: ["エンディングノートの書き方", "相続・遺言のアドバイス", "デジタル遺品整理", "¥1,980で詳細レポート（1回限り）"],
     url: "https://shukatsu-ai.vercel.app",
-    price: "無料3回 / スタンダード¥980/月 / プレミアム¥2,980/月",
+    price: "無料3回 / 詳細レポート¥1,980（1回限り） / 月額¥980/月",
   },
   "uranai-ai": {
     name: "AI占い",
