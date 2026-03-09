@@ -179,6 +179,8 @@ export default function Home() {
         <p className="mt-2">
           <Link href="/legal" className="hover:text-gray-300 underline">特定商取引法に基づく表記</Link>
           {" ｜ "}
+          <Link href="/terms" className="hover:text-gray-300 underline">利用規約</Link>
+          {" ｜ "}
           <Link href="/privacy" className="hover:text-gray-300 underline">プライバシーポリシー</Link>
         </p>
       </footer>

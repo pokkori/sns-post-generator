@@ -1,10 +1,12 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { isActiveSubscription } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
 const FREE_LIMIT = 3;
+const APP_ID = "sns";
 
 function getClient() {
   return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
@@ -94,7 +96,13 @@ export async function POST(req: NextRequest) {
   }
 
   const cookieStore = await cookies();
-  const isPremium = cookieStore.get("stripe_premium")?.value === "1";
+  const email = cookieStore.get("user_email")?.value;
+  let isPremium = false;
+  if (email) {
+    isPremium = await isActiveSubscription(email, APP_ID);
+  } else {
+    isPremium = cookieStore.get("stripe_premium")?.value === "1";
+  }
   const cookieCount = parseInt(cookieStore.get("gen_count")?.value ?? "0", 10);
 
   if (!isPremium && cookieCount >= FREE_LIMIT) {
