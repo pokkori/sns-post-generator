@@ -1,14 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import PayjpModal from "@/components/PayjpModal";
 
 const FREE_LIMIT = 3;
-
-async function startCheckout() {
-  const res = await fetch("/api/stripe/checkout", { method: "POST", headers: { "Content-Type": "application/json" } });
-  const data = await res.json();
-  if (data.url) window.location.href = data.url;
-}
 
 const PLATFORMS = [
   { id: "X", label: "X (Twitter)", icon: "𝕏" },
@@ -47,6 +42,7 @@ export default function Home() {
   const [remaining, setRemaining] = useState<number | null>(null);
   const [isPremium, setIsPremium] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
+  const [showPayjp, setShowPayjp] = useState(false);
   const [showExamples, setShowExamples] = useState(false);
 
   useEffect(() => {
@@ -337,13 +333,21 @@ export default function Home() {
                 <li key={f} className="flex items-center gap-2"><span className="text-blue-500">✓</span>{f}</li>
               ))}
             </ul>
-            <button onClick={() => startCheckout()}
+            <button onClick={() => setShowPayjp(true)}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors mb-3">
               プレミアムで解除する（¥980/月）
             </button>
             <button onClick={() => setShowPaywall(false)} className="w-full text-gray-400 hover:text-gray-600 text-sm py-2">閉じる</button>
           </div>
         </div>
+      )}
+      {showPayjp && (
+        <PayjpModal
+          publicKey={process.env.NEXT_PUBLIC_PAYJP_PUBLIC_KEY!}
+          planLabel="プレミアムプラン ¥980/月 — 投稿文生成 無制限"
+          onSuccess={() => { setShowPayjp(false); setIsPremium(true); }}
+          onClose={() => setShowPayjp(false)}
+        />
       )}
     </main>
   );

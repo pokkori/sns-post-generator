@@ -1,19 +1,9 @@
 'use client';
 
-import { useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 function SuccessContent() {
-  const params = useSearchParams();
-
-  useEffect(() => {
-    const sessionId = params.get('session_id');
-    if (sessionId) {
-      fetch(`/api/stripe/verify?session_id=${sessionId}`);
-    }
-  }, [params]);
-
   return (
     <div className="bg-white rounded-2xl shadow-lg border p-10 max-w-md w-full text-center">
       <div className="text-6xl mb-6">🎉</div>
@@ -23,8 +13,8 @@ function SuccessContent() {
         無制限でSNS投稿文を生成できます！
       </p>
       <Link
-        href="/"
-        className="block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl transition-colors"
+        href="/tool"
+        className="block bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-xl transition-colors"
       >
         投稿文を生成する
       </Link>

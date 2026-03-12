@@ -1,20 +1,12 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import PayjpModal from "@/components/PayjpModal";
 
 export default function Home() {
-  const [loading, setLoading] = useState(false);
-
-  async function startCheckout() {
-    setLoading(true);
-    try {
-      const res = await fetch("/api/stripe/checkout", { method: "POST", headers: { "Content-Type": "application/json" } });
-      const data = await res.json();
-      if (data.url) window.location.href = data.url;
-    } catch {
-      setLoading(false);
-    }
-  }
+  const [showPayjp, setShowPayjp] = useState(false);
+  const loading = false;
+  const startCheckout = () => setShowPayjp(true);
 
   return (
     <main className="min-h-screen bg-gray-950 text-white">
@@ -184,6 +176,14 @@ export default function Home() {
           <Link href="/privacy" className="hover:text-gray-300 underline">プライバシーポリシー</Link>
         </p>
       </footer>
+      {showPayjp && (
+        <PayjpModal
+          publicKey={process.env.NEXT_PUBLIC_PAYJP_PUBLIC_KEY!}
+          planLabel="プレミアムプラン ¥980/月 — 投稿文生成 無制限"
+          onSuccess={() => setShowPayjp(false)}
+          onClose={() => setShowPayjp(false)}
+        />
+      )}
     </main>
   );
 }
