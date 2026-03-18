@@ -323,6 +323,24 @@ export default function Home() {
                 </a>
                 <p className="text-xs text-gray-400 text-center mt-2">※ 広告・PR掲載</p>
               </div>
+
+              {/* ハンドメイドチャンネル アフィリエイト */}
+              <div className="bg-teal-50 border border-teal-200 rounded-2xl p-4">
+                <p className="text-sm font-bold text-teal-800 mb-3">🎨 SNS副業をもっと本格的に</p>
+                <a
+                  href="https://px.a8.net/svt/ejp?a8mat=4AZIOF+8PRGKY+4V0U+BXB8Z"
+                  target="_blank"
+                  rel="noopener noreferrer sponsored"
+                  className="flex items-center justify-between bg-white border border-teal-300 rounded-xl px-4 py-3 hover:bg-teal-50 transition-colors"
+                >
+                  <div>
+                    <div className="text-sm font-bold text-gray-800">ハンドメイドチャンネル — 副業・在宅ワーク</div>
+                    <div className="text-xs text-gray-500">¥5,000〜¥15,000 報酬 • SNS発信を収益化するスキルを学ぶ</div>
+                  </div>
+                  <span className="text-teal-600 font-bold text-xs bg-teal-100 border border-teal-200 px-2 py-1 rounded-full shrink-0">詳細を見る →</span>
+                </a>
+                <p className="text-xs text-gray-400 text-center mt-2">※ 広告・PR掲載</p>
+              </div>
             </div>
           )}
         </div>
