@@ -305,6 +305,24 @@ export default function Home() {
               <div className="text-center pt-2">
                 <button onClick={handleGenerate} className="text-sm text-blue-600 hover:text-blue-700 font-medium">再生成する</button>
               </div>
+
+              {/* 次のアクション：BASEアフィリエイト */}
+              <div className="bg-orange-50 border border-orange-200 rounded-2xl p-4">
+                <p className="text-sm font-bold text-orange-800 mb-3">🛒 SNSで集客したら、次はネットショップ開業</p>
+                <a
+                  href="https://px.a8.net/svt/ejp?a8mat=4AZIOF+8ZAE9E+2QQG+62MDD"
+                  target="_blank"
+                  rel="noopener noreferrer sponsored"
+                  className="flex items-center justify-between bg-white border border-orange-300 rounded-xl px-4 py-3 hover:bg-orange-50 transition-colors"
+                >
+                  <div>
+                    <div className="text-sm font-bold text-gray-800">BASE（ベイス）で無料開業</div>
+                    <div className="text-xs text-gray-500">初期費用・月額0円 • 最短5分でショップ開設 • 35万店以上が利用</div>
+                  </div>
+                  <span className="text-orange-600 font-bold text-xs bg-orange-100 border border-orange-200 px-2 py-1 rounded-full shrink-0">無料で始める →</span>
+                </a>
+                <p className="text-xs text-gray-400 text-center mt-2">※ 広告・PR掲載</p>
+              </div>
             </div>
           )}
         </div>
