@@ -1,9 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 function SuccessContent() {
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    const sessionId = searchParams.get('session_id');
+    if (sessionId) {
+      fetch(`/api/komoju/verify?session_id=${sessionId}`).catch(() => {});
+    }
+  }, [searchParams]);
   return (
     <div className="bg-white rounded-2xl shadow-lg border p-10 max-w-md w-full text-center">
       <div className="text-6xl mb-6">🎉</div>

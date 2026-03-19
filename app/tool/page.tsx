@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import PayjpModal from "@/components/PayjpModal";
+import KomojuButton from "@/components/KomojuButton";
 
 const FREE_LIMIT = 3;
 
@@ -369,9 +370,10 @@ export default function Home() {
                 <li key={f} className="flex items-center gap-2"><span className="text-blue-500">✓</span>{f}</li>
               ))}
             </ul>
+            <KomojuButton planId="standard" planLabel="プレミアムで解除する（¥980/月）" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors mb-3" />
             <button onClick={() => setShowPayjp(true)}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors mb-3">
-              プレミアムで解除する（¥980/月）
+              className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 rounded-xl transition-colors mb-3 text-sm">
+              クレジットカードで支払う（PAY.JP）
             </button>
             <button onClick={() => setShowPaywall(false)} className="w-full text-gray-400 hover:text-gray-600 text-sm py-2">閉じる</button>
           </div>
