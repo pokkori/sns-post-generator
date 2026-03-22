@@ -72,10 +72,26 @@ export default function Home() {
         body: JSON.stringify({ appId: "custom", customDesc, platform, angle, count }),
       });
       if (res.status === 402) { setShowPaywall(true); return; }
-      const data = await res.json();
-      setPosts(data.posts ?? []);
-      if (data.remaining !== undefined) setRemaining(data.remaining);
-      if (data.remaining === 0) setTimeout(() => setShowPaywall(true), 1500);
+      if (!res.body) throw new Error("No response body");
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const doneIdx = buffer.lastIndexOf("\nDONE:");
+        if (doneIdx !== -1) {
+          const jsonStr = buffer.slice(doneIdx + 6);
+          try {
+            const parsed = JSON.parse(jsonStr);
+            setPosts(parsed.posts ?? []);
+            if (parsed.remaining !== null && parsed.remaining !== undefined) setRemaining(parsed.remaining);
+            if (parsed.remaining === 0) setTimeout(() => setShowPaywall(true), 1500);
+          } catch { /* ignore parse error */ }
+          break;
+        }
+      }
     } catch {
       setPosts(["エラーが発生しました。もう一度お試しください。"]);
     } finally {
@@ -103,7 +119,11 @@ export default function Home() {
       <header className="bg-white border-b px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="text-2xl">📣</div>
+            <div className="w-9 h-9 bg-purple-600 rounded-xl flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 24 24" className="w-5 h-5 fill-white" aria-hidden="true">
+                <path d="M18 11.5C18 9.57 16.43 8 14.5 8h-9C3.57 8 2 9.57 2 11.5S3.57 15 5.5 15H6v3l3-3h5.5c1.93 0 3.5-1.57 3.5-3.5zM20.5 4H17v2h3.5c.83 0 1.5.67 1.5 1.5v11c0 .83-.67 1.5-1.5 1.5H17v2h3.5c1.93 0 3.5-1.57 3.5-3.5v-11C24 5.57 22.43 4 20.5 4z"/>
+              </svg>
+            </div>
             <div>
               <h1 className="text-lg font-bold text-gray-900">SNS投稿ジェネレーター</h1>
               <p className="text-xs text-gray-500">あなたの商品・サービスの宣伝投稿をAIが自動生成</p>

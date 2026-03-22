@@ -127,7 +127,17 @@ export async function POST(req: NextRequest) {
 
   const num = Math.min(Math.max(parseInt(count) || 3, 1), 5);
 
-  const prompt = `あなたはSNSマーケティングの専門家です。以下のWebサービスの${platform}向け投稿文を${num}パターン生成してください。
+  const SYSTEM_PROMPT = `あなたは日本トップクラスのSNSマーケターです。年間300社以上のSNS運用を担当し、フォロワー10万人超のアカウントを50以上育て上げた実績を持ちます。
+Buffer・Lately・Jasperといった海外ツールを超える、日本語特有のニュアンス・リズム・共感ワードに精通したコピーライティングの専門家として行動してください。
+
+【あなたが必ず守るコピーライティング原則】
+1. 冒頭1行が全て: 最初の1行でスクロールを止めなければ読まれない。強烈な問いかけ・数字・逆説から始める
+2. ターゲットの「内なる声」を代弁: ターゲットが心の中で思っているが言語化できていない悩みを言葉にする
+3. ベネフィット優先: 機能ではなく「それで自分の人生がどう変わるか」を訴求する
+4. 具体的な数字を使う: 「早い」ではなく「30秒」、「安い」ではなく「1投稿あたり33円」
+5. 投稿形式の徹底遵守: 各プラットフォームの文字数・改行・ハッシュタグルールを厳密に守る`;
+
+  const prompt = `以下のWebサービスの${platform}向け投稿文を${num}パターン生成してください。
 
 【サービス情報】
 - サービス名: ${appInfo.name}
@@ -137,35 +147,56 @@ export async function POST(req: NextRequest) {
 - URL: ${appInfo.url || "（省略）"}
 - 料金: ${appInfo.price || "（省略）"}
 
-【投稿ルール】
+【プラットフォーム別投稿ルール（厳守）】
 ${platformRule}
 
 【投稿の角度・方向性】
 ${angleDesc}
 
-【出力形式】
-各パターンを「---」で区切って出力してください。余計な説明や番号は不要です。投稿文のみを出力してください。`;
+【バズる投稿のための追加指示】
+- 各パターンで冒頭の切り口を必ず変える（問いかけ型・数字型・逆説型・共感型・衝撃型）
+- ターゲットが「これ自分のことだ」と思う瞬間を作る
+- CTA（行動喚起）は具体的に（「リンクから」ではなく「プロフ欄のリンクから今すぐ無料体験」）
+- 生成した投稿文の期待エンゲージメント率（低/中/高）を各パターン末尾に1行コメントで追加する
 
-  const message = await getClient().messages.create({
+【出力形式】
+各パターンを「---」で区切って出力してください。余計な説明や番号は不要です。投稿文と末尾の1行コメントのみを出力してください。`;
+
+  const newCount = cookieCount + 1;
+  const encoder = new TextEncoder();
+  const stream = getClient().messages.stream({
     model: "claude-haiku-4-5-20251001",
     max_tokens: 2000,
+    system: SYSTEM_PROMPT,
     messages: [{ role: "user", content: prompt }],
   });
 
-  const text = message.content[0].type === "text" ? message.content[0].text : "";
-  const posts = text.split("---").map((p: string) => p.trim()).filter(Boolean);
+  const readable = new ReadableStream({
+    async start(controller) {
+      let fullText = "";
+      try {
+        for await (const chunk of stream) {
+          if (chunk.type === "content_block_delta" && chunk.delta.type === "text_delta") {
+            fullText += chunk.delta.text;
+            controller.enqueue(encoder.encode(chunk.delta.text));
+          }
+        }
+        const posts = fullText.split("---").map((p: string) => p.trim()).filter(Boolean);
+        controller.enqueue(encoder.encode(`\nDONE:${JSON.stringify({ posts, remaining: isPremium ? null : FREE_LIMIT - newCount })}`));
+        controller.close();
+      } catch (err) { console.error(err); controller.error(err); }
+    },
+  });
 
-  if (!isPremium) {
-    const res = NextResponse.json({ posts, remaining: FREE_LIMIT - cookieCount - 1 });
-    res.cookies.set("gen_count", String(cookieCount + 1), {
-      httpOnly: true,
-      secure: true,
-      maxAge: 60 * 60 * 24 * 7,
-      path: "/",
-      sameSite: "lax",
-    });
-    return res;
-  }
+  const cookieStr = !isPremium
+    ? `gen_count=${newCount}; Max-Age=${60 * 60 * 24 * 7}; SameSite=Lax; HttpOnly; Secure; Path=/`
+    : "";
 
-  return NextResponse.json({ posts });
+  const headers: Record<string, string> = {
+    "Content-Type": "text/event-stream; charset=utf-8",
+    "Cache-Control": "no-cache",
+  };
+  if (cookieStr) headers["Set-Cookie"] = cookieStr;
+
+  return new Response(readable, { headers });
 }
