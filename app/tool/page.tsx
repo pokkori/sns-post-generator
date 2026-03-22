@@ -137,6 +137,7 @@ export default function Home() {
             )}
             {!isPremium && (
               <button onClick={() => setShowPaywall(true)}
+                aria-label="プレミアムプランに申し込む（月額980円）"
                 className="text-xs bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-1.5 rounded-lg transition-colors">
                 プレミアム ¥980/月
               </button>
@@ -156,6 +157,8 @@ export default function Home() {
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-sm font-bold text-gray-700">1. あなたの商品・サービス</h2>
               <button onClick={() => setShowExamples(!showExamples)}
+                aria-label={showExamples ? "記入例を閉じる" : "記入例を見る"}
+                aria-expanded={showExamples}
                 className="text-xs text-blue-600 hover:text-blue-800 font-medium">
                 記入例を見る
               </button>
@@ -166,6 +169,7 @@ export default function Home() {
                 <p className="text-xs text-blue-600 font-medium mb-2">クリックして入力欄に反映</p>
                 {EXAMPLE_SERVICES.map((ex) => (
                   <button key={ex.name} onClick={() => loadExample(ex)}
+                    aria-label={`記入例「${ex.name}」を入力欄に反映する`}
                     className="w-full text-left text-xs bg-white rounded-lg p-2.5 border border-blue-100 hover:border-blue-300 transition-colors">
                     <div className="font-medium text-gray-700">{ex.name}</div>
                     <div className="text-gray-400 mt-0.5 line-clamp-1">{ex.target}</div>
@@ -179,18 +183,22 @@ export default function Home() {
                 <label className="block text-xs text-gray-500 mb-1">サービス名・商品名 <span className="text-red-400">*</span></label>
                 <input type="text" value={serviceName} onChange={e => setServiceName(e.target.value)}
                   placeholder="例: AI補助金診断、ハンドメイドアクセサリー"
+                  aria-label="サービス名・商品名（必須）"
+                  aria-required="true"
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
               </div>
               <div>
                 <label className="block text-xs text-gray-500 mb-1">説明・特徴（多いほど質が上がる）</label>
                 <textarea value={serviceDesc} onChange={e => setServiceDesc(e.target.value)} rows={3}
                   placeholder="例: 入力するだけで30秒で補助金診断。申請書ドラフトまで自動生成。無料3回試せる。"
+                  aria-label="サービス・商品の説明と特徴"
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-400" />
               </div>
               <div>
                 <label className="block text-xs text-gray-500 mb-1">ターゲット</label>
                 <input type="text" value={target} onChange={e => setTarget(e.target.value)}
                   placeholder="例: 中小企業の経営者、EC出品者"
+                  aria-label="ターゲット顧客"
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
               </div>
               <div className="grid grid-cols-2 gap-3">
@@ -198,12 +206,14 @@ export default function Home() {
                   <label className="block text-xs text-gray-500 mb-1">料金</label>
                   <input type="text" value={price} onChange={e => setPrice(e.target.value)}
                     placeholder="例: 無料3回→¥980/月"
+                    aria-label="料金・価格"
                     className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
                 </div>
                 <div>
                   <label className="block text-xs text-gray-500 mb-1">URL（任意）</label>
                   <input type="text" value={url} onChange={e => setUrl(e.target.value)}
                     placeholder="https://..."
+                    aria-label="サービス・商品のURL（任意）"
                     className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
                 </div>
               </div>
@@ -216,8 +226,10 @@ export default function Home() {
             <div className="grid grid-cols-2 gap-2">
               {PLATFORMS.map((p) => (
                 <button key={p.id} onClick={() => setPlatform(p.id)}
+                  aria-label={`${p.label}向けに投稿文を生成する`}
+                  aria-pressed={platform === p.id}
                   className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-sm font-medium transition-all ${platform === p.id ? "border-blue-500 bg-blue-50 text-blue-700" : "border-gray-200 hover:border-gray-300 text-gray-700"}`}>
-                  <span>{p.icon}</span>
+                  <span aria-hidden="true">{p.icon}</span>
                   <span>{p.label}</span>
                 </button>
               ))}
@@ -230,6 +242,8 @@ export default function Home() {
             <div className="space-y-2">
               {ANGLES.map((a) => (
                 <button key={a.id} onClick={() => setAngle(a.id)}
+                  aria-label={`切り口「${a.label}」（${a.desc}）を選択する`}
+                  aria-pressed={angle === a.id}
                   className={`w-full text-left flex items-center justify-between px-3 py-2.5 rounded-xl border text-sm transition-colors ${angle === a.id ? "border-blue-500 bg-blue-50 text-blue-700 font-medium" : "border-gray-200 hover:border-gray-300 text-gray-700"}`}>
                   <span>{a.label}</span>
                   <span className={`text-xs ${angle === a.id ? "text-blue-500" : "text-gray-400"}`}>{a.desc}</span>
@@ -244,6 +258,8 @@ export default function Home() {
             <div className="flex gap-2">
               {["1", "2", "3", "4", "5"].map((n) => (
                 <button key={n} onClick={() => setCount(n)}
+                  aria-label={`生成パターン数を${n}に設定する`}
+                  aria-pressed={count === n}
                   className={`flex-1 py-2 rounded-xl border text-sm font-bold transition-colors ${count === n ? "border-blue-500 bg-blue-500 text-white" : "border-gray-200 hover:border-gray-300 text-gray-700"}`}>
                   {n}
                 </button>
@@ -253,6 +269,8 @@ export default function Home() {
 
           <button onClick={handleGenerate}
             disabled={loading || !canGenerate}
+            aria-label={loading ? "投稿文を生成中です" : "投稿文を生成する"}
+            aria-busy={loading}
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-bold py-4 rounded-2xl text-base transition-colors">
             {loading ? "生成中..." : `投稿文を生成する${!isPremium && remaining !== null ? ` (残り${remaining}回)` : ""}`}
           </button>
@@ -299,6 +317,7 @@ export default function Home() {
                 <span className="text-sm font-bold text-gray-700">{posts.length}パターン生成完了</span>
                 <button
                   onClick={() => { navigator.clipboard.writeText(posts.join("\n\n---\n\n")); setCopiedIndex(-1); setTimeout(() => setCopiedIndex(null), 2000); }}
+                  aria-label="生成された全ての投稿文をクリップボードにコピーする"
                   className="text-xs text-blue-600 font-medium border border-blue-200 px-3 py-1.5 rounded-lg hover:bg-blue-50 transition-colors">
                   {copiedIndex === -1 ? "コピーしました！" : "全てコピー"}
                 </button>
@@ -309,6 +328,7 @@ export default function Home() {
                   <div className="flex items-center justify-between px-4 pt-4 pb-2">
                     <span className="text-xs font-bold text-gray-400">パターン {i + 1}</span>
                     <button onClick={() => handleCopy(post, i)}
+                      aria-label={`パターン${i + 1}の投稿文をクリップボードにコピーする`}
                       className="text-xs text-blue-600 font-medium bg-blue-50 hover:bg-blue-100 px-3 py-1 rounded-lg transition-colors">
                       {copiedIndex === i ? "コピーしました！" : "コピー"}
                     </button>
@@ -324,7 +344,7 @@ export default function Home() {
                 </div>
               ))}
               <div className="text-center pt-2">
-                <button onClick={handleGenerate} className="text-sm text-blue-600 hover:text-blue-700 font-medium">再生成する</button>
+                <button onClick={handleGenerate} aria-label="投稿文を再生成する" className="text-sm text-blue-600 hover:text-blue-700 font-medium">再生成する</button>
               </div>
 
               {/* 次のアクション：BASEアフィリエイト */}
@@ -392,10 +412,11 @@ export default function Home() {
             </ul>
             <KomojuButton planId="standard" planLabel="プレミアムで解除する（¥980/月）" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors mb-3" />
             <button onClick={() => setShowPayjp(true)}
+              aria-label="クレジットカードでプレミアムプランに申し込む（PAY.JP）"
               className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 rounded-xl transition-colors mb-3 text-sm">
               クレジットカードで支払う（PAY.JP）
             </button>
-            <button onClick={() => setShowPaywall(false)} className="w-full text-gray-400 hover:text-gray-600 text-sm py-2">閉じる</button>
+            <button onClick={() => setShowPaywall(false)} aria-label="プレミアムプランのモーダルを閉じる" className="w-full text-gray-400 hover:text-gray-600 text-sm py-2">閉じる</button>
           </div>
         </div>
       )}
