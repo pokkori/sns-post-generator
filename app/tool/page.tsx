@@ -39,6 +39,7 @@ export default function Home() {
   const [count, setCount] = useState("3");
   const [posts, setPosts] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [streamingText, setStreamingText] = useState("");
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [remaining, setRemaining] = useState<number | null>(null);
   const [isPremium, setIsPremium] = useState(false);
@@ -65,6 +66,7 @@ export default function Home() {
     if (!customDesc.trim()) return;
     setLoading(true);
     setPosts([]);
+    setStreamingText("");
     try {
       const res = await fetch("/api/generate", {
         method: "POST",
@@ -79,7 +81,9 @@ export default function Home() {
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        buffer += decoder.decode(value, { stream: true });
+        const chunk = decoder.decode(value, { stream: true });
+        buffer += chunk;
+        setStreamingText(buffer);
         const doneIdx = buffer.lastIndexOf("\nDONE:");
         if (doneIdx !== -1) {
           const jsonStr = buffer.slice(doneIdx + 6);
@@ -89,6 +93,7 @@ export default function Home() {
             if (parsed.remaining !== null && parsed.remaining !== undefined) setRemaining(parsed.remaining);
             if (parsed.remaining === 0) setTimeout(() => setShowPaywall(true), 1500);
           } catch { /* ignore parse error */ }
+          setStreamingText("");
           break;
         }
       }
@@ -303,11 +308,20 @@ export default function Home() {
           )}
 
           {loading && (
-            <div className="bg-white rounded-2xl border h-full min-h-[400px] flex items-center justify-center">
-              <div className="text-center">
-                <div className="text-4xl mb-4 animate-pulse">✨</div>
-                <p className="text-gray-500 text-sm">{platform}向け投稿文を生成中...</p>
+            <div className="bg-white rounded-2xl border h-full min-h-[400px] flex flex-col">
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100">
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500" aria-hidden="true" />
+                <span className="text-sm font-medium text-blue-600" aria-live="polite" aria-atomic="true">{platform}向け投稿文を生成中...</span>
               </div>
+              {streamingText ? (
+                <div className="flex-1 p-4 overflow-y-auto">
+                  <pre className="text-xs text-gray-600 whitespace-pre-wrap font-sans leading-relaxed">{streamingText.replace(/\nDONE:.*$/, "").slice(-600)}</pre>
+                </div>
+              ) : (
+                <div className="flex-1 flex items-center justify-center">
+                  <p className="text-gray-400 text-sm">AIが投稿文を考えています...</p>
+                </div>
+              )}
             </div>
           )}
 

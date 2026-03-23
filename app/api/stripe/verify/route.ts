@@ -25,7 +25,8 @@ export async function GET(req: NextRequest) {
     const subId = session.subscription as string | null;
     let currentPeriodEnd: string | null = null;
     if (subId) {
-      const stripeSub = await stripe.subscriptions.retrieve(subId);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const stripeSub = await stripe.subscriptions.retrieve(subId) as any;
       currentPeriodEnd = new Date(stripeSub.current_period_end * 1000).toISOString();
     }
 

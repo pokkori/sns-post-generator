@@ -35,7 +35,8 @@ export async function POST(req: NextRequest) {
   }
 
   if (event.type === "customer.subscription.updated") {
-    const sub = event.data.object as Stripe.Subscription;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const sub = event.data.object as any;
     const status =
       sub.status === "active" ? "active" : sub.status === "past_due" ? "past_due" : "inactive";
     await supabase
@@ -49,7 +50,8 @@ export async function POST(req: NextRequest) {
   }
 
   if (event.type === "invoice.payment_failed") {
-    const invoice = event.data.object as Stripe.Invoice;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const invoice = event.data.object as any;
     if (invoice.subscription) {
       await supabase
         .from("subscriptions")
