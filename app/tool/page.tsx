@@ -3,6 +3,31 @@
 import { useState, useEffect } from "react";
 import PayjpModal from "@/components/PayjpModal";
 import KomojuButton from "@/components/KomojuButton";
+import { updateStreak, loadStreak, getStreakMilestoneMessage, type StreakData } from "@/lib/streak";
+
+const SNS_HISTORY_KEY = "sns_history";
+const HISTORY_MAX = 5;
+
+interface HistoryItem {
+  platform: string;
+  text: string;
+  date: string;
+}
+
+function loadHistory(): HistoryItem[] {
+  if (typeof window === "undefined") return [];
+  try {
+    return JSON.parse(localStorage.getItem(SNS_HISTORY_KEY) ?? "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveHistory(items: HistoryItem[]): void {
+  try {
+    localStorage.setItem(SNS_HISTORY_KEY, JSON.stringify(items.slice(0, HISTORY_MAX)));
+  } catch { /* noop */ }
+}
 
 const FREE_LIMIT = 3;
 
@@ -46,9 +71,15 @@ export default function Home() {
   const [showPaywall, setShowPaywall] = useState(false);
   const [showPayjp, setShowPayjp] = useState(false);
   const [showExamples, setShowExamples] = useState(false);
+  const [history, setHistory] = useState<HistoryItem[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
+  const [streak, setStreak] = useState<StreakData | null>(null);
+  const [milestoneMsg, setMilestoneMsg] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/auth/status").then(r => r.json()).then(d => setIsPremium(d.isPremium)).catch(() => {});
+    setHistory(loadHistory());
+    setStreak(loadStreak("sns_post"));
   }, []);
 
   const buildCustomDesc = () => {
@@ -89,9 +120,28 @@ export default function Home() {
           const jsonStr = buffer.slice(doneIdx + 6);
           try {
             const parsed = JSON.parse(jsonStr);
-            setPosts(parsed.posts ?? []);
+            const newPosts: string[] = parsed.posts ?? [];
+            setPosts(newPosts);
             if (parsed.remaining !== null && parsed.remaining !== undefined) setRemaining(parsed.remaining);
             if (parsed.remaining === 0) setTimeout(() => setShowPaywall(true), 1500);
+            // 履歴保存
+            if (newPosts.length > 0) {
+              const firstPost = newPosts[0];
+              const newItem: HistoryItem = {
+                platform,
+                text: firstPost.slice(0, 50),
+                date: new Date().toLocaleString("ja-JP", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }),
+              };
+              const prev = loadHistory();
+              const updated = [newItem, ...prev.filter(h => h.text !== newItem.text)].slice(0, HISTORY_MAX);
+              saveHistory(updated);
+              setHistory(updated);
+            }
+            // ストリーク更新
+            const updatedStreak = updateStreak("sns_post");
+            setStreak(updatedStreak);
+            const msg = getStreakMilestoneMessage(updatedStreak.count);
+            if (msg) { setMilestoneMsg(msg); setTimeout(() => setMilestoneMsg(null), 3000); }
           } catch { /* ignore parse error */ }
           setStreamingText("");
           break;
@@ -120,7 +170,7 @@ export default function Home() {
   const canGenerate = serviceName.trim() || serviceDesc.trim();
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50/30 to-gray-50">
       <header className="bg-white border-b px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -135,6 +185,11 @@ export default function Home() {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            {streak && streak.count > 0 && (
+              <span className="text-xs font-bold px-2 py-1 rounded-full bg-orange-100 text-orange-600" aria-label={`${streak.count}日連続利用中`}>
+                {streak.count}日連続
+              </span>
+            )}
             {!isPremium && remaining !== null && (
               <span className={`text-xs font-medium px-2 py-1 rounded-full ${remaining === 0 ? "bg-red-100 text-red-600" : "bg-blue-50 text-blue-600"}`}>
                 残り{remaining}回
@@ -158,7 +213,7 @@ export default function Home() {
         <div className="space-y-5">
 
           {/* サービス情報 */}
-          <div className="bg-white rounded-2xl border p-5">
+          <div className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-2xl p-5">
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-sm font-bold text-gray-700">1. あなたの商品・サービス</h2>
               <button onClick={() => setShowExamples(!showExamples)}
@@ -226,7 +281,7 @@ export default function Home() {
           </div>
 
           {/* プラットフォーム */}
-          <div className="bg-white rounded-2xl border p-5">
+          <div className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-2xl p-5">
             <h2 className="text-sm font-bold text-gray-700 mb-3">2. SNSプラットフォーム</h2>
             <div className="grid grid-cols-2 gap-2">
               {PLATFORMS.map((p) => (
@@ -242,7 +297,7 @@ export default function Home() {
           </div>
 
           {/* 投稿の角度 */}
-          <div className="bg-white rounded-2xl border p-5">
+          <div className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-2xl p-5">
             <h2 className="text-sm font-bold text-gray-700 mb-3">3. 投稿の切り口</h2>
             <div className="space-y-2">
               {ANGLES.map((a) => (
@@ -258,7 +313,7 @@ export default function Home() {
           </div>
 
           {/* 生成数 */}
-          <div className="bg-white rounded-2xl border p-5">
+          <div className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-2xl p-5">
             <h2 className="text-sm font-bold text-gray-700 mb-3">4. 生成パターン数</h2>
             <div className="flex gap-2">
               {["1", "2", "3", "4", "5"].map((n) => (
@@ -282,12 +337,40 @@ export default function Home() {
           {!canGenerate && (
             <p className="text-xs text-center text-gray-400">サービス名を入力してください</p>
           )}
+
+          {/* 生成履歴パネル */}
+          {history.length > 0 && (
+            <div className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-2xl p-4">
+              <button
+                onClick={() => setShowHistory(!showHistory)}
+                aria-label={showHistory ? "生成履歴を閉じる" : "生成履歴を表示する"}
+                aria-expanded={showHistory}
+                className="w-full flex items-center justify-between text-sm font-bold text-gray-700 mb-0"
+              >
+                <span>生成履歴（最近{history.length}件）</span>
+                <span className="text-gray-400 text-xs">{showHistory ? "閉じる" : "開く"}</span>
+              </button>
+              {showHistory && (
+                <ul className="mt-3 space-y-2">
+                  {history.map((item, i) => (
+                    <li key={i} className="bg-gray-50 rounded-xl p-2.5 text-xs">
+                      <div className="flex items-center justify-between mb-0.5">
+                        <span className="font-bold text-blue-600">{item.platform}</span>
+                        <span className="text-gray-400">{item.date}</span>
+                      </div>
+                      <p className="text-gray-600 line-clamp-1">{item.text}…</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
         </div>
 
         {/* 右パネル：結果 */}
         <div>
           {posts.length === 0 && !loading && (
-            <div className="bg-white rounded-2xl border h-full min-h-[400px] flex flex-col items-center justify-center text-center p-10 gap-4">
+            <div className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-2xl h-full min-h-[400px] flex flex-col items-center justify-center text-center p-10 gap-4">
               <div className="text-5xl">📝</div>
               <div>
                 <p className="text-gray-700 font-medium">サービス情報を入力して</p>
@@ -308,7 +391,7 @@ export default function Home() {
           )}
 
           {loading && (
-            <div className="bg-white rounded-2xl border h-full min-h-[400px] flex flex-col">
+            <div className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-2xl h-full min-h-[400px] flex flex-col">
               <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100">
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500" aria-hidden="true" />
                 <span className="text-sm font-medium text-blue-600" aria-live="polite" aria-atomic="true">{platform}向け投稿文を生成中...</span>
@@ -338,7 +421,7 @@ export default function Home() {
               </div>
 
               {posts.map((post, i) => (
-                <div key={i} className="bg-white rounded-2xl border hover:border-gray-300 transition-colors">
+                <div key={i} className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-2xl hover:border-white/60 transition-colors">
                   <div className="flex items-center justify-between px-4 pt-4 pb-2">
                     <span className="text-xs font-bold text-gray-400">パターン {i + 1}</span>
                     <button onClick={() => handleCopy(post, i)}
@@ -441,6 +524,17 @@ export default function Home() {
           onSuccess={() => { setShowPayjp(false); setIsPremium(true); }}
           onClose={() => setShowPayjp(false)}
         />
+      )}
+
+      {/* ストリークマイルストーントースト */}
+      {milestoneMsg && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-orange-500 text-white font-bold px-6 py-3 rounded-2xl shadow-xl z-50 animate-bounce"
+        >
+          {milestoneMsg}
+        </div>
       )}
     </main>
   );

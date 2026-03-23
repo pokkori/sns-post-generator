@@ -9,7 +9,7 @@ export default function Home() {
   const startCheckout = () => setShowPayjp(true);
 
   return (
-    <main className="min-h-screen bg-gray-950 text-white">
+    <main className="min-h-screen bg-gradient-to-br from-gray-950 via-purple-950/30 to-gray-950 text-white">
       {/* Hero */}
       <section className="pt-20 pb-16 px-4 text-center">
         <div className="inline-flex items-center gap-1.5 bg-purple-900 text-purple-300 text-xs font-bold px-3 py-1 rounded-full mb-6">
@@ -27,7 +27,7 @@ export default function Home() {
         </p>
         <div className="grid grid-cols-3 gap-4 max-w-sm mx-auto mb-10">
           {[["対応SNS", "5媒体"], ["生成速度", "30秒"], ["投稿角度", "5パターン"]].map(([label, val]) => (
-            <div key={label} className="bg-gray-900 rounded-xl p-3">
+            <div key={label} className="backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg rounded-xl p-3">
               <div className="text-purple-400 text-xl font-black">{val}</div>
               <div className="text-gray-400 text-xs mt-1">{label}</div>
             </div>
@@ -62,7 +62,7 @@ export default function Home() {
               { num: "02", title: "投稿しても反応がゼロ", desc: "一生懸命書いたのにいいねが2〜3つ。どう書けばいいか分からない" },
               { num: "03", title: "同じような内容になる", desc: "複数SNSで同じ文章をコピペしてるだけ。各媒体に最適化できていない" },
             ].map((item) => (
-              <div key={item.title} className="bg-gray-800 rounded-2xl p-6">
+              <div key={item.title} className="backdrop-blur-sm bg-white/5 border border-white/10 shadow-lg rounded-2xl p-6">
                 <div className="text-purple-500 text-xs font-black tracking-widest mb-3">{item.num}</div>
                 <h3 className="font-bold text-lg mb-2 text-red-300">{item.title}</h3>
                 <p className="text-gray-400 text-sm">{item.desc}</p>
@@ -86,7 +86,7 @@ export default function Home() {
               { label: "Copy", title: "ワンクリックコピー", desc: "生成した文章をすぐコピーしてSNSに貼り付けるだけ" },
               { label: "∞", title: "無制限生成（有料版）", desc: "¥980/月で毎日何度でも使い放題。月30投稿なら1投稿あたり¥33" },
             ].map((f) => (
-              <div key={f.title} className="bg-gray-900 rounded-2xl p-5 flex gap-4">
+              <div key={f.title} className="backdrop-blur-sm bg-white/5 border border-white/10 shadow-lg rounded-2xl p-5 flex gap-4">
                 <div className="w-10 h-10 rounded-xl bg-purple-800 flex items-center justify-center text-purple-300 text-xs font-black shrink-0">{f.label}</div>
                 <div>
                   <h3 className="font-bold text-white mb-1">{f.title}</h3>
@@ -103,7 +103,7 @@ export default function Home() {
         <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold mb-10">料金</h2>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-gray-800 rounded-2xl p-8 border border-gray-700">
+            <div className="backdrop-blur-sm bg-white/5 border border-white/20 shadow-lg rounded-2xl p-8">
               <div className="text-gray-400 text-sm mb-2">無料プラン</div>
               <div className="text-4xl font-black text-white mb-2">¥0</div>
               <ul className="text-gray-400 text-sm mt-4 space-y-2 text-left">
@@ -115,7 +115,7 @@ export default function Home() {
                 無料で試す
               </Link>
             </div>
-            <div className="bg-purple-900 rounded-2xl p-8 border-2 border-purple-500">
+            <div className="backdrop-blur-sm bg-purple-900/60 border-2 border-purple-500/60 shadow-lg rounded-2xl p-8">
               <div className="text-purple-300 text-sm font-bold mb-2">プレミアム</div>
               <div className="text-4xl font-black text-purple-400 mb-2">¥980</div>
               <div className="text-gray-300 text-sm mb-4">/月（税込）</div>
@@ -147,7 +147,7 @@ export default function Home() {
               { name: "Bさん（EC事業者）", text: "楽天の商品告知とXへの投稿を同時に作れるのが便利。¥980は安すぎると思います。" },
               { name: "Cさん（コンサルタント）", text: "ペイン訴求パターンを使ったらリプが10倍になりました。書き方が全然違う。" },
             ].map((t) => (
-              <div key={t.name} className="bg-gray-900 rounded-2xl p-6">
+              <div key={t.name} className="backdrop-blur-sm bg-white/5 border border-white/10 shadow-lg rounded-2xl p-6">
                 <p className="text-gray-200 text-sm mb-4">「{t.text}」</p>
                 <p className="text-purple-400 text-xs font-bold">{t.name}</p>
               </div>
