@@ -43,6 +43,7 @@ export default function Home() {
           <button
             onClick={startCheckout}
             disabled={loading}
+            aria-label="¥980/月のプレミアムプランに申し込む"
             className="border border-purple-600 text-purple-300 hover:text-white hover:border-purple-400 font-semibold text-lg px-10 py-4 rounded-xl transition disabled:opacity-60"
           >
             {loading ? "処理中..." : "¥980/月でアップグレード"}
@@ -126,6 +127,7 @@ export default function Home() {
               <button
                 onClick={startCheckout}
                 disabled={loading}
+                aria-label="プレミアムプランの申し込みを開始する"
                 className="block w-full mt-6 bg-purple-500 hover:bg-purple-400 text-black font-black py-3 rounded-xl transition disabled:opacity-60"
               >
                 {loading ? "処理中..." : "始める →"}
@@ -160,10 +162,22 @@ export default function Home() {
         <p className="text-gray-400 mb-8">登録不要・クレジットカード不要。3回まで全機能無料。</p>
         <Link
           href="/tool"
+          aria-label="SNS投稿生成AIを無料で試す（3回）"
           className="inline-block bg-purple-500 hover:bg-purple-400 text-black font-black text-xl px-12 py-5 rounded-xl transition"
         >
           無料で試す →
         </Link>
+        <div className="mt-8">
+          <a
+            href="https://twitter.com/intent/tweet?text=AIで5媒体のSNS投稿文を一括生成！無料3回試せます&url=https://sns-post-generator.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="XでSNS投稿生成AIをシェアする"
+            className="inline-flex items-center gap-2 bg-black text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-800 transition-colors"
+          >
+            𝕏 でシェアする
+          </a>
+        </div>
       </section>
 
       {/* アフィリエイト導線 */}
