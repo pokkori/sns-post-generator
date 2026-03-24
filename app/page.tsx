@@ -52,6 +52,27 @@ export default function Home() {
         <p className="text-gray-500 text-sm mt-4">クレジットカード不要・登録不要で3回試せる</p>
       </section>
 
+      {/* 価値換算コピー */}
+      <section className="bg-gray-950 py-8 px-4 border-b border-gray-800">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-purple-400 font-bold text-sm mb-2">1クリックで3プラットフォーム分の投稿を生成</p>
+          <p className="text-white text-xl font-black mb-4">毎日の投稿作業が<span className="text-purple-400">5分→10秒</span>に。月30投稿なら<span className="text-purple-400">1投稿あたり¥33</span>。</p>
+          <div className="grid sm:grid-cols-3 gap-4">
+            {[
+              { label: "SNSコンサルタント依頼", price: "¥30,000〜/月", note: "外注コスト大" },
+              { label: "投稿1本を自分で書く", price: "30〜60分", note: "毎日続かない" },
+              { label: "SNS投稿生成AI（月額）", price: "¥980/月", note: "無制限・全5媒体" },
+            ].map((item, i) => (
+              <div key={i} className={`rounded-xl p-4 ${i === 2 ? "bg-purple-600 border border-purple-500" : "bg-gray-800 border border-gray-700"}`}>
+                <div className={`text-xs font-bold mb-1 ${i === 2 ? "text-purple-200" : "text-gray-500"}`}>{item.label}</div>
+                <div className={`text-2xl font-black mb-1 ${i === 2 ? "text-yellow-300" : "text-gray-400"}`}>{item.price}</div>
+                <div className={`text-xs ${i === 2 ? "text-purple-100" : "text-gray-500"}`}>{item.note}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Pain Points */}
       <section className="bg-gray-900 py-16 px-4">
         <div className="max-w-4xl mx-auto">

@@ -440,8 +440,22 @@ export default function Home() {
                   </div>
                 </div>
               ))}
-              <div className="text-center pt-2">
+              <div className="text-center pt-2 flex flex-col sm:flex-row gap-3 justify-center items-center">
                 <button onClick={handleGenerate} aria-label="投稿文を再生成する" className="text-sm text-blue-600 hover:text-blue-700 font-medium">再生成する</button>
+                {posts.length > 0 && (
+                  <a
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(posts[0] ?? '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="生成された投稿文をXでシェアする"
+                    className="inline-flex items-center gap-1.5 bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-lg text-xs transition-colors"
+                  >
+                    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                    Xにそのまま投稿
+                  </a>
+                )}
               </div>
 
               {/* 次のアクション：BASEアフィリエイト */}
