@@ -1,0 +1,12 @@
+# AI SNS投稿文ジェネレーター
+X・Instagram・TikTok・note・YouTube Shorts向け投稿文をAIが30秒で5パターン生成するSNSマーケティングツール
+
+## サービス概要
+- 対象ユーザー: SNS運用担当者・個人事業主・フリーランス・インフルエンサー
+- 主な機能: サービス名を入力するだけでX・Instagram・TikTok・note・YouTube Shorts向け投稿文を5パターン自動生成、毎日の投稿ネタ切れを解消
+- 料金: ¥980/月
+- URL: https://sns-post-generator-mu.vercel.app
+
+## 主要FAQ
+Q: AI SNS投稿文ジェネレーターはどのプラットフォームに対応していますか？
+A: X（旧Twitter）・Instagram・TikTok・note・YouTube Shortsの5プラットフォームに対応しています。各プラットフォームの最適な文字数・ハッシュタグ・表現スタイルに合わせた投稿文を一括生成。月額¥980でご利用いただけます。
