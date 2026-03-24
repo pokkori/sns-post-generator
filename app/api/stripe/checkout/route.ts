@@ -8,7 +8,7 @@ function getStripe() {
 }
 
 export async function POST(req: NextRequest) {
-  const origin = req.headers.get('origin') || 'https://sns-post-generator.vercel.app';
+  const origin = req.headers.get('origin') || 'https://sns-post-generator-mu.vercel.app';
   const session = await getStripe().checkout.sessions.create({
     mode: 'subscription',
     line_items: [{ price: process.env.STRIPE_PRICE_ID!, quantity: 1 }],

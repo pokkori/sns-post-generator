@@ -62,7 +62,7 @@ export default function Home() {
               { num: "02", title: "投稿しても反応がゼロ", desc: "一生懸命書いたのにいいねが2〜3つ。どう書けばいいか分からない" },
               { num: "03", title: "同じような内容になる", desc: "複数SNSで同じ文章をコピペしてるだけ。各媒体に最適化できていない" },
             ].map((item) => (
-              <div key={item.title} className="backdrop-blur-sm bg-white/5 border border-white/10 shadow-lg rounded-2xl p-6">
+              <div key={item.title} style={{ background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '16px' }} className="shadow-lg p-6">
                 <div className="text-purple-500 text-xs font-black tracking-widest mb-3">{item.num}</div>
                 <h3 className="font-bold text-lg mb-2 text-red-300">{item.title}</h3>
                 <p className="text-gray-400 text-sm">{item.desc}</p>
@@ -86,7 +86,7 @@ export default function Home() {
               { label: "Copy", title: "ワンクリックコピー", desc: "生成した文章をすぐコピーしてSNSに貼り付けるだけ" },
               { label: "∞", title: "無制限生成（有料版）", desc: "¥980/月で毎日何度でも使い放題。月30投稿なら1投稿あたり¥33" },
             ].map((f) => (
-              <div key={f.title} className="backdrop-blur-sm bg-white/5 border border-white/10 shadow-lg rounded-2xl p-5 flex gap-4">
+              <div key={f.title} style={{ background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '16px' }} className="shadow-lg p-5 flex gap-4">
                 <div className="w-10 h-10 rounded-xl bg-purple-800 flex items-center justify-center text-purple-300 text-xs font-black shrink-0">{f.label}</div>
                 <div>
                   <h3 className="font-bold text-white mb-1">{f.title}</h3>
@@ -103,7 +103,7 @@ export default function Home() {
         <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold mb-10">料金</h2>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="backdrop-blur-sm bg-white/5 border border-white/20 shadow-lg rounded-2xl p-8">
+            <div style={{ background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '16px' }} className="shadow-lg p-8">
               <div className="text-gray-400 text-sm mb-2">無料プラン</div>
               <div className="text-4xl font-black text-white mb-2">¥0</div>
               <ul className="text-gray-400 text-sm mt-4 space-y-2 text-left">
@@ -115,7 +115,7 @@ export default function Home() {
                 無料で試す
               </Link>
             </div>
-            <div className="backdrop-blur-sm bg-purple-900/60 border-2 border-purple-500/60 shadow-lg rounded-2xl p-8">
+            <div style={{ background: 'rgba(88,28,135,0.45)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '2px solid rgba(168,85,247,0.5)', borderRadius: '16px' }} className="shadow-lg p-8">
               <div className="text-purple-300 text-sm font-bold mb-2">プレミアム</div>
               <div className="text-4xl font-black text-purple-400 mb-2">¥980</div>
               <div className="text-gray-300 text-sm mb-4">/月（税込）</div>
@@ -147,7 +147,7 @@ export default function Home() {
               { name: "Bさん（EC事業者）", text: "楽天の商品告知とXへの投稿を同時に作れるのが便利。¥980は安すぎると思います。" },
               { name: "Cさん（コンサルタント）", text: "ペイン訴求パターンを使ったらリプが10倍になりました。書き方が全然違う。" },
             ].map((t) => (
-              <div key={t.name} className="backdrop-blur-sm bg-white/5 border border-white/10 shadow-lg rounded-2xl p-6">
+              <div key={t.name} style={{ background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '16px' }} className="shadow-lg p-6">
                 <p className="text-gray-200 text-sm mb-4">「{t.text}」</p>
                 <p className="text-purple-400 text-xs font-bold">{t.name}</p>
               </div>
@@ -160,16 +160,18 @@ export default function Home() {
       <section className="bg-gray-900 py-16 px-4 text-center">
         <h2 className="text-2xl font-black mb-4">まず無料で試してみる</h2>
         <p className="text-gray-400 mb-8">登録不要・クレジットカード不要。3回まで全機能無料。</p>
-        <Link
-          href="/tool"
-          aria-label="SNS投稿生成AIを無料で試す（3回）"
-          className="inline-block bg-purple-500 hover:bg-purple-400 text-black font-black text-xl px-12 py-5 rounded-xl transition"
-        >
-          無料で試す →
-        </Link>
-        <div className="mt-8">
+        <div style={{ background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '20px' }} className="shadow-lg p-8 max-w-md mx-auto mb-6">
+          <Link
+            href="/tool"
+            aria-label="SNS投稿生成AIを無料で試す（3回）"
+            className="inline-block bg-purple-500 hover:bg-purple-400 text-black font-black text-xl px-12 py-5 rounded-xl transition w-full"
+          >
+            無料で試す →
+          </Link>
+        </div>
+        <div className="mt-6">
           <a
-            href="https://twitter.com/intent/tweet?text=AIで5媒体のSNS投稿文を一括生成！無料3回試せます&url=https://sns-post-generator.vercel.app"
+            href="https://twitter.com/intent/tweet?text=AIで5媒体のSNS投稿文を一括生成！無料3回試せます&url=https://sns-post-generator-mu.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="XでSNS投稿生成AIをシェアする"

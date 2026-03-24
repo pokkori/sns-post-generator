@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 
-const SITE_URL = "https://sns-post-generator.vercel.app";
+const SITE_URL = "https://sns-post-generator-mu.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
