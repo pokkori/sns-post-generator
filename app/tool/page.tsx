@@ -444,7 +444,7 @@ export default function Home() {
                 <button onClick={handleGenerate} aria-label="投稿文を再生成する" className="text-sm text-blue-600 hover:text-blue-700 font-medium">再生成する</button>
                 {posts.length > 0 && (
                   <a
-                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(posts[0] ?? '')}`}
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(posts[0] ?? '')}&hashtags=SNS投稿AI`}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="生成された投稿文をXでシェアする"
