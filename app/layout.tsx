@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
+import FeedbackButton from "@/components/FeedbackButton";
 import "./globals.css";
 
 
@@ -17,13 +18,13 @@ export const metadata: Metadata = {
     siteName: "AI SNS投稿文ジェネレーター",
     locale: "ja_JP",
     type: "website",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "AI SNS投稿文ジェネレーター" }],
+    images: [{ url: `${SITE_URL}/opengraph-image`, width: 1200, height: 630, alt: "AI SNS投稿文ジェネレーター" }],
   },
   twitter: {
     card: "summary_large_image",
     title: TITLE,
     description: DESC,
-    images: ["/og.png"],
+    images: [`${SITE_URL}/opengraph-image`],
   },
   metadataBase: new URL(SITE_URL),
 };
@@ -80,8 +81,65 @@ const jsonLd = {
         "@type": "Answer",
         "text": "はい、各SNS媒体の特性に合わせて最適化された自然な文章を生成します。X向けは短文でインパクト重視、Instagramはビジュアル映えするキャプション、TikTokはトレンドに合ったフック文など、5媒体それぞれの文化・文体に対応しています。"
       }
+    },
+    {
+      "@type": "Question",
+      "name": "SNS投稿AIの使い方は？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "サービス名・商品名と投稿のSNS媒体を選択し、「生成する」ボタンを押すだけです。30秒以内に5つの異なる角度の投稿文が自動生成されます。気に入った文章をそのままSNSに投稿するか、好みに編集してご利用ください。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "ハッシュタグも自動生成されますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい、各SNS媒体に最適なハッシュタグも自動生成します。X向けは拡散されやすいハッシュタグ、Instagram向けはリーチを広げるタグを提案します。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "生成された投稿を編集できますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい、生成された投稿文はコピーしてご自身のSNS投稿画面で自由に編集できます。AIの生成文をベースにブランドのトーン&マナーに合わせてカスタマイズすることを推奨しています。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "投稿の文体（丁寧語/カジュアル）は選べますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい、各SNS媒体の特性に合わせた文体で自動生成されます。X向けはカジュアルでインパクト重視、noteやLinkedIn向けはより丁寧なビジネストーンで生成します。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "解約はいつでもできますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい、いつでも解約できます。解約後は次の請求日から課金が停止されます。解約手続きはマイページから簡単に行えます。違約金・解約手数料は一切かかりません。"
+      }
     }
   ]
+};
+
+const webAppLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "AI SNS投稿文ジェネレーター",
+  "url": SITE_URL,
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "JPY",
+    "description": "無料でSNS投稿を生成。月額¥980で無制限利用"
+  },
+  "description": DESC
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -96,9 +154,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppLd) }}
+        />
       </head>
       <body className="antialiased">
         {children}
+        <FeedbackButton />
         <Analytics />
       </body>
     </html>
