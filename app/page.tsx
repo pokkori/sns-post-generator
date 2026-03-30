@@ -7,6 +7,7 @@ import { StreakBanner } from "@/components/StreakBanner";
 import { AdBanner } from "@/components/AdBanner";
 import { UsageCounter } from "@/components/UsageCounter";
 import { CrossSell } from "@/components/CrossSell";
+import { TrustBadge } from "@/components/TrustBadge";
 
 export default function Home() {
   const [showPayjp, setShowPayjp] = useState(false);
@@ -53,6 +54,7 @@ export default function Home() {
           ))}
         </div>
         <div className="max-w-xs mx-auto mb-4"><UsageCounter /></div>
+        <TrustBadge />
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/tool"
