@@ -6,6 +6,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { StreakBanner } from "@/components/StreakBanner";
 import { AdBanner } from "@/components/AdBanner";
 import { UsageCounter } from "@/components/UsageCounter";
+import { CrossSell } from "@/components/CrossSell";
 
 export default function Home() {
   const [showPayjp, setShowPayjp] = useState(false);
@@ -58,8 +59,9 @@ export default function Home() {
             className="text-white font-black text-lg px-10 py-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.97] text-center min-h-[52px]"
             style={{ background: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)', boxShadow: '0 0 25px rgba(139, 92, 246, 0.4), 0 4px 15px rgba(0,0,0,0.3)' }}
           >
-            無料で試す（3回）→
+            無料でバズる投稿を生成 →
           </Link>
+          <p className="text-xs opacity-60 mt-2">※登録不要・3回まで無料</p>
           <button
             onClick={startCheckout}
             disabled={loading}
@@ -323,6 +325,8 @@ export default function Home() {
       </section>
 
       {/* Footer */}
+      <CrossSell currentService="SNS投稿生成AI" />
+
       <footer className="border-t border-gray-800 py-8 px-4 text-center text-gray-500 text-xs">
         <p>© 2026 AI SNS投稿文ジェネレーター</p>
         <p className="mt-2">
