@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import FeedbackButton from "@/components/FeedbackButton";
+import { GoogleAdScript } from "@/components/GoogleAdScript";
 import "./globals.css";
 
 
@@ -163,6 +164,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <FeedbackButton />
         <Analytics />
+        <GoogleAdScript />
       </body>
     </html>
   );

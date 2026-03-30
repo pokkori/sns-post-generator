@@ -2,6 +2,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import PayjpModal from "@/components/PayjpModal";
+import { ShareButtons } from "@/components/ShareButtons";
+import { AdBanner } from "@/components/AdBanner";
 
 export default function Home() {
   const [showPayjp, setShowPayjp] = useState(false);
@@ -263,6 +265,12 @@ export default function Home() {
         </div>
       </section>
 
+      {/* シェアセクション */}
+      <section className="py-8 px-4 text-center">
+        <p className="text-gray-400 text-sm mb-4">SNS投稿生成AIを友達にシェア</p>
+        <ShareButtons url="https://sns-post-generator-mu.vercel.app" text="SNS投稿生成AIを使ってみた！" hashtags="SNS投稿生成AI" />
+      </section>
+
       {/* Footer */}
       <footer className="border-t border-gray-800 py-8 px-4 text-center text-gray-500 text-xs">
         <p>© 2026 AI SNS投稿文ジェネレーター</p>
@@ -272,8 +280,11 @@ export default function Home() {
           <Link href="/terms" className="hover:text-gray-300 underline">利用規約</Link>
           {" ｜ "}
           <Link href="/privacy" className="hover:text-gray-300 underline">プライバシーポリシー</Link>
+          {" ｜ "}
+          <Link href="/cancel" className="hover:text-gray-300 underline">解約・退会</Link>
         </p>
       </footer>
+      <AdBanner slot="" />
       {showPayjp && (
         <PayjpModal
           publicKey={process.env.NEXT_PUBLIC_PAYJP_PUBLIC_KEY!}

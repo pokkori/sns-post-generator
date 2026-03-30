@@ -41,8 +41,21 @@ export default function PrivacyPage() {
             <p className="text-slate-400">法令に基づく場合および決済処理のためPAY.JP（PAY.JP株式会社）に提供する場合（PAY.JP（https://pay.jp）のプライバシーポリシーに従います）を除き、第三者への提供は行いません。</p>
           </section>
 
+          <section className="border-b border-white/5 pb-6">
+            <h2 className="font-bold text-base mb-2 text-slate-100">4. 外部送信規律に基づく情報送信</h2>
+            <p className="text-slate-400 mb-3">本サービスでは、電気通信事業法の外部送信規律に基づき、以下の外部サービスにデータを送信しています。</p>
+            <table className="w-full text-left text-xs text-slate-400">
+              <thead><tr className="border-b border-white/10"><th className="py-2 pr-2">送信先</th><th className="py-2 pr-2">目的</th><th className="py-2">送信される情報</th></tr></thead>
+              <tbody>
+                <tr className="border-b border-white/5"><td className="py-2 pr-2">Anthropic（Claude API）</td><td className="py-2 pr-2">AIによるSNS投稿文の生成</td><td className="py-2">ユーザーの入力テキスト</td></tr>
+                <tr className="border-b border-white/5"><td className="py-2 pr-2">PAY.JP（PAY株式会社）</td><td className="py-2 pr-2">決済処理</td><td className="py-2">決済に必要な情報</td></tr>
+                <tr><td className="py-2 pr-2">Vercel Inc.</td><td className="py-2 pr-2">ホスティング・アクセス解析</td><td className="py-2">ページビュー・デバイス情報</td></tr>
+              </tbody>
+            </table>
+          </section>
+
           <section>
-            <h2 className="font-bold text-base mb-2 text-slate-100">4. お問い合わせ</h2>
+            <h2 className="font-bold text-base mb-2 text-slate-100">5. お問い合わせ</h2>
             <p className="text-slate-400">X(Twitter) @levona_design へのDM</p>
           </section>
         </div>
