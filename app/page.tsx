@@ -265,6 +265,52 @@ export default function Home() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="px-4 py-12 relative z-10" aria-labelledby="faq-heading" style={{ background: 'rgba(15, 15, 26, 0.95)' }}>
+        <div className="max-w-3xl mx-auto">
+          <h2 id="faq-heading" className="text-2xl font-bold text-white mb-8 text-center">よくある質問</h2>
+          {[
+            { q: '無料で使えますか？', a: '基本機能は無料で3回までご利用いただけます。登録不要・クレジットカード不要で全機能をお試しいただけます。' },
+            { q: '個人情報は安全ですか？', a: '入力された情報はAI分析のみに使用し、第三者への提供は行いません。SSL暗号化通信で安全に保護されています。' },
+            { q: 'どのSNSに対応していますか？', a: 'X（旧Twitter）、Instagram、TikTok、note、YouTube Shortsの5媒体に対応しています。各媒体の特性に最適化した投稿文を生成します。' },
+            { q: '生成された投稿文はそのまま使えますか？', a: 'はい、ワンクリックでコピーしてそのままSNSに貼り付けて投稿できます。もちろんお好みに合わせて編集もできます。' },
+          ].map(({ q, a }) => (
+            <details key={q} className="mb-4 rounded-lg" style={{ background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.15)' }}>
+              <summary className="p-4 cursor-pointer text-white font-medium">{q}</summary>
+              <p className="px-4 pb-4 text-gray-400 text-sm">{a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: [
+              { '@type': 'Question', name: '無料で使えますか？', acceptedAnswer: { '@type': 'Answer', text: '基本機能は無料で3回までご利用いただけます。登録不要・クレジットカード不要で全機能をお試しいただけます。' } },
+              { '@type': 'Question', name: '個人情報は安全ですか？', acceptedAnswer: { '@type': 'Answer', text: '入力された情報はAI分析のみに使用し、第三者への提供は行いません。SSL暗号化通信で安全に保護されています。' } },
+              { '@type': 'Question', name: 'どのSNSに対応していますか？', acceptedAnswer: { '@type': 'Answer', text: 'X（旧Twitter）、Instagram、TikTok、note、YouTube Shortsの5媒体に対応しています。各媒体の特性に最適化した投稿文を生成します。' } },
+              { '@type': 'Question', name: '生成された投稿文はそのまま使えますか？', acceptedAnswer: { '@type': 'Answer', text: 'はい、ワンクリックでコピーしてそのままSNSに貼り付けて投稿できます。もちろんお好みに合わせて編集もできます。' } },
+            ],
+          }).replace(/</g, '\\u003c'),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'SoftwareApplication',
+            name: 'AI SNS投稿文ジェネレーター',
+            applicationCategory: 'BusinessApplication',
+            operatingSystem: 'Web',
+            offers: { '@type': 'Offer', price: '0', priceCurrency: 'JPY' },
+          }).replace(/</g, '\\u003c'),
+        }}
+      />
+
       {/* シェアセクション */}
       <section className="py-8 px-4 text-center">
         <p className="text-gray-400 text-sm mb-4">SNS投稿生成AIを友達にシェア</p>
@@ -283,6 +329,10 @@ export default function Home() {
           {" ｜ "}
           <Link href="/cancel" className="hover:text-gray-300 underline">解約・退会</Link>
         </p>
+        <div className="flex items-center justify-center gap-2 text-xs text-gray-600 mt-4">
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          SSL暗号化通信 | データは安全に保護されています
+        </div>
       </footer>
       <AdBanner slot="" />
       {showPayjp && (
