@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/react";
 import FeedbackButton from "@/components/FeedbackButton";
 import { GoogleAdScript } from "@/components/GoogleAdScript";
 import "./globals.css";
+import { InstallPrompt } from "@/components/InstallPrompt";
 
 
 const SITE_URL = "https://sns-post-generator-mu.vercel.app";
@@ -162,6 +163,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="antialiased">
         {children}
+        <InstallPrompt />
         <FeedbackButton />
         <Analytics />
         <GoogleAdScript />

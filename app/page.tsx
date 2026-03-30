@@ -3,7 +3,9 @@ import { useState } from "react";
 import Link from "next/link";
 import PayjpModal from "@/components/PayjpModal";
 import { ShareButtons } from "@/components/ShareButtons";
+import { StreakBanner } from "@/components/StreakBanner";
 import { AdBanner } from "@/components/AdBanner";
+import { UsageCounter } from "@/components/UsageCounter";
 
 export default function Home() {
   const [showPayjp, setShowPayjp] = useState(false);
@@ -24,6 +26,8 @@ export default function Home() {
           <div key={i} className="absolute rounded-full animate-pulse" style={{ width: p.w, height: p.h, left: p.l, top: p.t, background: `rgba(139, 92, 246, ${p.op})`, animationDuration: p.dur, filter: 'blur(1px)' }} />
         ))}
       </div>
+      <StreakBanner />
+
       {/* Hero */}
       <section className="pt-20 pb-16 px-4 text-center relative z-10">
         <div className="inline-flex items-center gap-1.5 text-purple-300 text-xs font-bold px-4 py-1.5 rounded-full mb-6" style={{ background: 'rgba(139, 92, 246, 0.15)', backdropFilter: 'blur(8px)', border: '1px solid rgba(139, 92, 246, 0.25)' }}>
@@ -47,6 +51,7 @@ export default function Home() {
             </div>
           ))}
         </div>
+        <div className="max-w-xs mx-auto mb-4"><UsageCounter /></div>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/tool"
