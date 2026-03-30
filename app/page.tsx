@@ -9,16 +9,28 @@ export default function Home() {
   const startCheckout = () => setShowPayjp(true);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-950 via-purple-950/30 to-gray-950 text-white">
+    <main className="min-h-screen text-white relative overflow-hidden" style={{ background: 'radial-gradient(ellipse at 20% 50%, rgba(139, 92, 246, 0.12) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(168, 85, 247, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(99, 102, 241, 0.08) 0%, transparent 50%), #0A0A14' }}>
+      {/* Floating particles */}
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0">
+        {[
+          { w: 3, h: 3, l: '15%', t: '25%', dur: '7s', op: 0.3 },
+          { w: 2, h: 2, l: '80%', t: '60%', dur: '9s', op: 0.2 },
+          { w: 4, h: 4, l: '60%', t: '10%', dur: '6s', op: 0.25 },
+          { w: 2, h: 2, l: '40%', t: '75%', dur: '8s', op: 0.15 },
+          { w: 3, h: 3, l: '90%', t: '35%', dur: '10s', op: 0.2 },
+        ].map((p, i) => (
+          <div key={i} className="absolute rounded-full animate-pulse" style={{ width: p.w, height: p.h, left: p.l, top: p.t, background: `rgba(139, 92, 246, ${p.op})`, animationDuration: p.dur, filter: 'blur(1px)' }} />
+        ))}
+      </div>
       {/* Hero */}
-      <section className="pt-20 pb-16 px-4 text-center">
-        <div className="inline-flex items-center gap-1.5 bg-purple-900 text-purple-300 text-xs font-bold px-3 py-1 rounded-full mb-6">
+      <section className="pt-20 pb-16 px-4 text-center relative z-10">
+        <div className="inline-flex items-center gap-1.5 text-purple-300 text-xs font-bold px-4 py-1.5 rounded-full mb-6" style={{ background: 'rgba(139, 92, 246, 0.15)', backdropFilter: 'blur(8px)', border: '1px solid rgba(139, 92, 246, 0.25)' }}>
           <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-purple-400" aria-hidden="true"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5 2.5 2.5 0 0 0 7.5 18 2.5 2.5 0 0 0 10 15.5 2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5 2.5 2.5 0 0 0 2.5 2.5 2.5 2.5 0 0 0 2.5-2.5 2.5 2.5 0 0 0-2.5-2.5z"/></svg>
           AI SNS投稿文ジェネレーター
         </div>
         <h1 className="text-4xl md:text-6xl font-black mb-6 leading-tight">
           SNS投稿文、<br />
-          <span className="text-purple-400">30秒で5パターン。</span>
+          <span style={{ background: 'linear-gradient(135deg, #F1F5F9 0%, #8B5CF6 50%, #6366F1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', filter: 'drop-shadow(0 0 20px rgba(139, 92, 246, 0.3))' }}>30秒で5パターン。</span>
         </h1>
         <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-8">
           サービス名と説明を入力するだけで、X・Instagram・TikTok・note・YouTube Shorts向けの
@@ -36,7 +48,8 @@ export default function Home() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/tool"
-            className="bg-purple-500 hover:bg-purple-400 text-black font-black text-lg px-10 py-4 rounded-xl transition text-center"
+            className="text-white font-black text-lg px-10 py-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.97] text-center min-h-[52px]"
+            style={{ background: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)', boxShadow: '0 0 25px rgba(139, 92, 246, 0.4), 0 4px 15px rgba(0,0,0,0.3)' }}
           >
             無料で試す（3回）→
           </Link>
@@ -128,9 +141,9 @@ export default function Home() {
               <div className="text-gray-400 text-sm mb-2">無料プラン</div>
               <div className="text-4xl font-black text-white mb-2">¥0</div>
               <ul className="text-gray-400 text-sm mt-4 space-y-2 text-left">
-                <li>✓ 3回まで生成可能</li>
-                <li>✓ 全機能利用可</li>
-                <li>✗ 3回以降は有料</li>
+                <li className="flex items-center gap-2"><svg className="w-4 h-4 text-emerald-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round"/></svg>3回まで生成可能</li>
+                <li className="flex items-center gap-2"><svg className="w-4 h-4 text-emerald-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round"/></svg>全機能利用可</li>
+                <li className="flex items-center gap-2"><svg className="w-4 h-4 text-gray-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M6 18L18 6M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/></svg>3回以降は有料</li>
               </ul>
               <Link href="/tool" className="block mt-6 border border-gray-600 text-gray-300 font-bold py-3 rounded-xl hover:border-gray-400 transition">
                 無料で試す
@@ -141,9 +154,9 @@ export default function Home() {
               <div className="text-4xl font-black text-purple-400 mb-2">¥980</div>
               <div className="text-gray-300 text-sm mb-4">/月（税込）</div>
               <ul className="text-gray-200 text-sm space-y-2 text-left">
-                <li>✓ 無制限生成</li>
-                <li>✓ 全5媒体・全5角度</li>
-                <li>✓ いつでも解約可能</li>
+                <li className="flex items-center gap-2"><svg className="w-4 h-4 text-purple-300 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round"/></svg>無制限生成</li>
+                <li className="flex items-center gap-2"><svg className="w-4 h-4 text-purple-300 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round"/></svg>全5媒体・全5角度</li>
+                <li className="flex items-center gap-2"><svg className="w-4 h-4 text-purple-300 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round"/></svg>いつでも解約可能</li>
               </ul>
               <button
                 onClick={startCheckout}
@@ -178,14 +191,15 @@ export default function Home() {
       </section>
 
       {/* Final CTA */}
-      <section className="bg-gray-900 py-16 px-4 text-center">
+      <section className="py-16 px-4 text-center relative z-10" style={{ background: 'radial-gradient(ellipse at 50% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 60%), rgba(15, 15, 26, 0.95)' }}>
         <h2 className="text-2xl font-black mb-4">まず無料で試してみる</h2>
         <p className="text-gray-400 mb-8">登録不要・クレジットカード不要。3回まで全機能無料。</p>
         <div style={{ background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '20px' }} className="shadow-lg p-8 max-w-md mx-auto mb-6">
           <Link
             href="/tool"
             aria-label="SNS投稿生成AIを無料で試す（3回）"
-            className="inline-block bg-purple-500 hover:bg-purple-400 text-black font-black text-xl px-12 py-5 rounded-xl transition w-full"
+            className="inline-block text-white font-black text-xl px-12 py-5 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.97] w-full min-h-[52px]"
+            style={{ background: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)', boxShadow: '0 0 30px rgba(139, 92, 246, 0.4), 0 4px 15px rgba(0,0,0,0.3)' }}
           >
             無料で試す →
           </Link>
