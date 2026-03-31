@@ -14,7 +14,9 @@ function SuccessContent() {
   }, [searchParams]);
   return (
     <div className="bg-white rounded-2xl shadow-lg border p-10 max-w-md w-full text-center">
-      <div className="text-6xl mb-6">🎉</div>
+      <svg className="w-16 h-16 text-green-500 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
       <h1 className="text-2xl font-bold text-gray-800 mb-3">ご購入ありがとうございます！</h1>
       <p className="text-gray-500 mb-8">
         決済が完了しました。<br />

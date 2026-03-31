@@ -32,11 +32,11 @@ function saveHistory(items: HistoryItem[]): void {
 const FREE_LIMIT = 3;
 
 const PLATFORMS = [
-  { id: "X", label: "X (Twitter)", icon: "𝕏" },
-  { id: "Instagram", label: "Instagram", icon: "📸" },
-  { id: "TikTok", label: "TikTok", icon: "♪" },
-  { id: "note", label: "note", icon: "✏️" },
-  { id: "YouTube Shorts", label: "YouTube Shorts", icon: "▶" },
+  { id: "X", label: "X (Twitter)", icon: "X" },
+  { id: "Instagram", label: "Instagram", icon: "IG" },
+  { id: "TikTok", label: "TikTok", icon: "TT" },
+  { id: "note", label: "note", icon: "note" },
+  { id: "YouTube Shorts", label: "YouTube Shorts", icon: "YT" },
 ];
 
 const ANGLES = [
@@ -371,18 +371,20 @@ export default function Home() {
         <div>
           {posts.length === 0 && !loading && (
             <div className="backdrop-blur-sm bg-white/80 border border-white/40 shadow-lg rounded-2xl h-full min-h-[400px] flex flex-col items-center justify-center text-center p-10 gap-4">
-              <div className="text-5xl">📝</div>
+              <svg className="w-12 h-12 text-gray-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
               <div>
                 <p className="text-gray-700 font-medium">サービス情報を入力して</p>
                 <p className="text-gray-500 text-sm mt-1">「投稿文を生成する」を押してください</p>
               </div>
               <div className="bg-gray-50 rounded-xl p-4 text-xs text-left space-y-1.5 w-full max-w-[280px]">
                 <p className="font-semibold text-gray-600 mb-2">対応している投稿の切り口</p>
-                <p className="text-gray-500">😤 ペイン訴求 — 悩みを刺激して共感を生む</p>
-                <p className="text-gray-500">📢 サービス紹介 — 機能・使い方を分かりやすく</p>
-                <p className="text-gray-500">🎁 無料CTA — 今すぐ試してもらう行動喚起</p>
-                <p className="text-gray-500">📊 数字・実績 — 具体数字で信頼感を高める</p>
-                <p className="text-gray-500">💡 Tips — 役立つ情報で拡散を狙う</p>
+                <p className="text-gray-500">ペイン訴求 — 悩みを刺激して共感を生む</p>
+                <p className="text-gray-500">サービス紹介 — 機能・使い方を分かりやすく</p>
+                <p className="text-gray-500">無料CTA — 今すぐ試してもらう行動喚起</p>
+                <p className="text-gray-500">数字・実績 — 具体数字で信頼感を高める</p>
+                <p className="text-gray-500">Tips — 役立つ情報で拡散を狙う</p>
               </div>
               {!isPremium && (
                 <p className="text-xs text-gray-400">無料{FREE_LIMIT}回 → プレミアムで無制限</p>
@@ -460,7 +462,7 @@ export default function Home() {
 
               {/* 次のアクション：BASEアフィリエイト */}
               <div className="bg-orange-50 border border-orange-200 rounded-2xl p-4">
-                <p className="text-sm font-bold text-orange-800 mb-3">🛒 SNSで集客したら、次はネットショップ開業</p>
+                <p className="text-sm font-bold text-orange-800 mb-3">SNSで集客したら、次はネットショップ開業</p>
                 <a
                   href="https://px.a8.net/svt/ejp?a8mat=4AZIOF+8ZAE9E+2QQG+62MDD"
                   target="_blank"
@@ -478,7 +480,7 @@ export default function Home() {
 
               {/* ハンドメイドチャンネル アフィリエイト */}
               <div className="bg-teal-50 border border-teal-200 rounded-2xl p-4">
-                <p className="text-sm font-bold text-teal-800 mb-3">🎨 SNS副業をもっと本格的に</p>
+                <p className="text-sm font-bold text-teal-800 mb-3">SNS副業をもっと本格的に</p>
                 <a
                   href="https://px.a8.net/svt/ejp?a8mat=4AZIOF+8PRGKY+4V0U+BXB8Z"
                   target="_blank"
@@ -503,7 +505,9 @@ export default function Home() {
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={() => setShowPaywall(false)}>
           <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl" onClick={e => e.stopPropagation()}>
             <div className="text-center mb-6">
-              <div className="text-5xl mb-4">🚀</div>
+              <svg className="w-12 h-12 text-blue-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
               <h2 className="text-xl font-bold text-gray-900 mb-2">プレミアムで無制限生成</h2>
               <p className="text-gray-500 text-sm">
                 毎日の投稿ネタ切れを解消。<br />
