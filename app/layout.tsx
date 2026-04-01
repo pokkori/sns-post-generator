@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import Script from "next/script";
 import FeedbackButton from "@/components/FeedbackButton";
 import { GoogleAdScript } from "@/components/GoogleAdScript";
 import "./globals.css";
@@ -132,6 +133,54 @@ const jsonLd = {
         "@type": "Answer",
         "text": "はい、いつでも解約できます。解約後は次の請求日から課金が停止されます。解約手続きはマイページから簡単に行えます。違約金・解約手数料は一切かかりません。"
       }
+    },
+    {
+      "@type": "Question",
+      "name": "バズる投稿を作るコツをAIが教えてくれますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい、5パターンの投稿角度（ペイン訴求・数字インパクト・ライフハック・無料CTA・サービス紹介）の中から、各SNS媒体でバズりやすいフォーマットをAIが自動で選択して生成します。フック文・本文・CTA・ハッシュタグの構成をすべて最適化します。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "投稿後のパフォーマンス分析はできますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "現時点では投稿文の生成に特化したサービスです。投稿後のインプレッション・エンゲージメント分析はSNS各プラットフォームのアナリティクス機能をご活用ください。今後のアップデートで分析機能の追加を検討しています。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "業種・職種別のカスタマイズは可能ですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい、サービス名・商品の説明を具体的に入力することで、業種・職種に合わせた専門的な投稿文を生成します。飲食・美容・IT・不動産・士業など幅広い業種に対応しており、業界特有の言葉遣いやターゲット層に合わせた文章を出力します。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "英語やその他の言語でも投稿文を生成できますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "現在は日本語での投稿文生成に最適化されています。英語での生成はプロンプトに英語で入力することで対応可能ですが、日本語ほどの品質保証はできません。海外向けのSNS運用については今後の対応を検討しています。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "個人のSNSアカウントでも法人・企業アカウントでも使えますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい、個人のインフルエンサー・副業・フリーランスの方から、中小企業・スタートアップのSNS担当者まで幅広くご利用いただけます。サービス名を入力する際に会社名・ブランド名・個人名のいずれを入力しても対応します。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "生成した投稿文をチームで共有できますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "生成された投稿文はコピーボタンで簡単にコピーでき、Slack・Notion・Google Docsなど任意のツールに貼り付けてチームで共有できます。複数人での運用に便利なチーム向けプランは今後のアップデートで対応予定です。"
+      }
     }
   ]
 };
@@ -177,6 +226,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Analytics />
         <SpeedInsights />
         <GoogleAdScript />
+        {process.env.NEXT_PUBLIC_CLARITY_ID && process.env.NODE_ENV === 'production' && (
+          <Script
+            id="clarity-init"
+            strategy="afterInteractive"
+          >
+            {`(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${process.env.NEXT_PUBLIC_CLARITY_ID}");`}
+          </Script>
+        )}
       </body>
     </html>
   );
