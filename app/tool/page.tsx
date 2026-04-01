@@ -4,6 +4,12 @@ import { useState, useEffect } from "react";
 import PayjpModal from "@/components/PayjpModal";
 import KomojuButton from "@/components/KomojuButton";
 import { updateStreak, loadStreak, getStreakMilestoneMessage, type StreakData } from "@/lib/streak";
+import { useTypewriter } from "@/lib/useTypewriter";
+
+function PostContent({ post }: { post: string }) {
+  const displayed = useTypewriter(post, 15);
+  return <pre className="text-sm text-gray-800 whitespace-pre-wrap font-sans leading-relaxed">{displayed}</pre>;
+}
 
 const SNS_HISTORY_KEY = "sns_history";
 const HISTORY_MAX = 5;
@@ -403,8 +409,13 @@ export default function Home() {
                   <pre className="text-xs text-gray-600 whitespace-pre-wrap font-sans leading-relaxed">{streamingText.replace(/\nDONE:.*$/, "").slice(-600)}</pre>
                 </div>
               ) : (
-                <div className="flex-1 flex items-center justify-center">
-                  <p className="text-gray-400 text-sm">AIが投稿文を考えています...</p>
+                <div className="flex-1 p-4 space-y-3">
+                  <div className="skeleton h-4 w-3/4" />
+                  <div className="skeleton h-4 w-full" />
+                  <div className="skeleton h-4 w-5/6" />
+                  <div className="skeleton h-4 w-2/3" />
+                  <div className="skeleton h-4 w-full" />
+                  <p className="text-gray-400 text-xs mt-2">AIが投稿文を考えています...</p>
                 </div>
               )}
             </div>
@@ -433,7 +444,7 @@ export default function Home() {
                     </button>
                   </div>
                   <div className="px-4 pb-4">
-                    <pre className="text-sm text-gray-800 whitespace-pre-wrap font-sans leading-relaxed">{post}</pre>
+                    <PostContent post={post} />
                     {platform === "X" && (
                       <p className={`text-xs mt-3 text-right font-mono ${post.length > 140 ? "text-red-500" : "text-gray-400"}`}>
                         {post.length} / 140字
