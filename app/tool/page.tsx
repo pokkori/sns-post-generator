@@ -5,6 +5,7 @@ import PayjpModal from "@/components/PayjpModal";
 import KomojuButton from "@/components/KomojuButton";
 import { updateStreak, loadStreak, getStreakMilestoneMessage, type StreakData } from "@/lib/streak";
 import { useTypewriter } from "@/lib/useTypewriter";
+import ConfettiLaunch from "@/components/ConfettiLaunch";
 
 function PostContent({ post }: { post: string }) {
   const displayed = useTypewriter(post, 15);
@@ -81,6 +82,7 @@ export default function Home() {
   const [showHistory, setShowHistory] = useState(false);
   const [streak, setStreak] = useState<StreakData | null>(null);
   const [milestoneMsg, setMilestoneMsg] = useState<string | null>(null);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
     fetch("/api/auth/status").then(r => r.json()).then(d => setIsPremium(d.isPremium)).catch(() => {});
@@ -132,6 +134,8 @@ export default function Home() {
             if (parsed.remaining === 0) setTimeout(() => setShowPaywall(true), 1500);
             // 履歴保存
             if (newPosts.length > 0) {
+              setShowConfetti(true);
+              setTimeout(() => setShowConfetti(false), 4000);
               const firstPost = newPosts[0];
               const newItem: HistoryItem = {
                 platform,
@@ -177,6 +181,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50/30 to-gray-50">
+      <ConfettiLaunch trigger={showConfetti} message="投稿文完成！" />
       <header className="bg-white border-b px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
