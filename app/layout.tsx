@@ -39,6 +39,10 @@ export const metadata: Metadata = {
     images: [`${SITE_URL}/opengraph-image`],
   },
   metadataBase: new URL(SITE_URL),
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 const breadcrumbLd = {
