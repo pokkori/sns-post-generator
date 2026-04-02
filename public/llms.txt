@@ -1,22 +1,26 @@
-# AI SNS投稿文ジェネレーター
+# SNS投稿生成AI
 
-> X・Instagram・TikTok対応、30秒で5パターンのSNS投稿文を自動生成するマーケティングツール
+> サービス名と説明を入力するだけで、X・Instagram・TikTok・note・YouTube Shorts向けのバズる投稿文を30秒で5パターン自動生成するサービス
 
-## About
-サービス名やテーマを入力するだけで、X・Instagram・TikTok・note・YouTube Shorts向けの投稿文をAIが自動生成します。毎日のSNS投稿のネタ切れを解消し、個人事業主・中小企業のSNSマーケティングを効率化します。
+## 概要
+毎日のSNS投稿ネタに悩む方のために、AIが自動でバズる投稿文を生成します。サービス名と概要を入力するだけで、5つの異なるSNS媒体向けに最適化された投稿文を30秒以内に5パターン生成します。X（旧Twitter）・Instagram・TikTok・note・YouTube Shortsの5媒体に対応しています。
 
-## Features
-- マルチプラットフォーム: X・Instagram・TikTok・note・YouTube Shorts対応
-- 5パターン同時生成: 異なる切り口の投稿文を一度に5パターン作成
-- ハッシュタグ自動提案: プラットフォームごとに最適なハッシュタグを提案
-- トーン調整: カジュアル・ビジネス・エモーショナルなどトーンを選択可能
+## 対象ユーザー
+SNS運用担当者、個人事業主・フリーランス、インフルエンサー・クリエイター、毎日投稿ネタに困っているすべての方
 
-## Pricing
-- 無料プラン: 毎日3回まで無料（登録不要）
-- プレミアム: ¥980/月
+## 主な機能
+- X・Instagram・TikTok・note・YouTube Shorts向け投稿文を同時生成
+- 30秒以内に5パターンのバズる投稿文を生成
+- サービス名と説明を入れるだけの簡単操作
+- 生成した投稿文のワンクリックコピー機能
 
-## Links
-- [ホーム](https://sns-post-generator-mu.vercel.app)
-- [ツール](https://sns-post-generator-mu.vercel.app/tool)
-- [利用規約](https://sns-post-generator-mu.vercel.app/legal)
-- [プライバシーポリシー](https://sns-post-generator-mu.vercel.app/privacy)
+## 使い方
+1. サービス名・商品名・発信したい内容を入力する
+2. 対象とするSNS媒体を選択する
+3. 「生成する」ボタンを押して30秒でバズる投稿文5パターンを受け取る
+
+## 料金
+無料で3回まで利用可能。プレミアムプランで無制限（月額980円）。
+
+## URL
+https://sns-manager-six.vercel.app
