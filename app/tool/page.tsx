@@ -6,6 +6,7 @@ import KomojuButton from "@/components/KomojuButton";
 import { updateStreak, loadStreak, getStreakMilestoneMessage, type StreakData } from "@/lib/streak";
 import { useTypewriter } from "@/lib/useTypewriter";
 import ConfettiLaunch from "@/components/ConfettiLaunch";
+import { useFreemiumLimit } from "@/hooks/useFreemiumLimit";
 
 function PostContent({ post }: { post: string }) {
   const displayed = useTypewriter(post, 15);
@@ -14,6 +15,8 @@ function PostContent({ post }: { post: string }) {
 
 const SNS_HISTORY_KEY = "sns_history";
 const HISTORY_MAX = 5;
+const SNS_FREEMIUM_KEY = "sns_free_count";
+const SNS_FREE_MAX = 5;
 
 interface HistoryItem {
   platform: string;
@@ -84,6 +87,13 @@ export default function Home() {
   const [milestoneMsg, setMilestoneMsg] = useState<string | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
 
+  const {
+    isLimitReached: localLimitReached,
+    remainingCount: localRemaining,
+    incrementUsage: incrementLocalUsage,
+    mounted: freemiumMounted,
+  } = useFreemiumLimit(SNS_FREEMIUM_KEY, SNS_FREE_MAX);
+
   useEffect(() => {
     fetch("/api/auth/status").then(r => r.json()).then(d => setIsPremium(d.isPremium)).catch(() => {});
     setHistory(loadHistory());
@@ -103,6 +113,13 @@ export default function Home() {
   const handleGenerate = async () => {
     const customDesc = buildCustomDesc();
     if (!customDesc.trim()) return;
+
+    // localStorageベースのフリーミアム制限チェック（isPremiumならスキップ）
+    if (!isPremium && localLimitReached) {
+      setShowPaywall(true);
+      return;
+    }
+
     setLoading(true);
     setPosts([]);
     setStreamingText("");
@@ -131,6 +148,10 @@ export default function Home() {
             const newPosts: string[] = parsed.posts ?? [];
             setPosts(newPosts);
             if (parsed.remaining !== null && parsed.remaining !== undefined) setRemaining(parsed.remaining);
+            // 生成成功時にlocalStorage使用回数を増やす
+            if (!isPremium && newPosts.length > 0) {
+              incrementLocalUsage();
+            }
             if (parsed.remaining === 0) setTimeout(() => setShowPaywall(true), 1500);
             // 履歴保存
             if (newPosts.length > 0) {
@@ -201,9 +222,9 @@ export default function Home() {
                 {streak.count}日連続
               </span>
             )}
-            {!isPremium && remaining !== null && (
-              <span className={`text-xs font-medium px-2 py-1 rounded-full ${remaining === 0 ? "bg-red-100 text-red-600" : "bg-blue-50 text-blue-600"}`}>
-                残り{remaining}回
+            {!isPremium && freemiumMounted && (
+              <span className={`text-xs font-medium px-2 py-1 rounded-full ${localLimitReached ? "bg-red-100 text-red-600" : "bg-blue-50 text-blue-600"}`}>
+                残り{localRemaining}回無料
               </span>
             )}
             {!isPremium && (
@@ -340,10 +361,14 @@ export default function Home() {
 
           <button onClick={handleGenerate}
             disabled={loading || !canGenerate}
-            aria-label={loading ? "投稿文を生成中です" : "投稿文を生成する"}
+            aria-label={loading ? "投稿文を生成中です" : localLimitReached && !isPremium ? "プレミアムプランに申し込む" : "投稿文を生成する"}
             aria-busy={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-bold py-4 rounded-2xl text-base transition-colors">
-            {loading ? "生成中..." : `投稿文を生成する${!isPremium && remaining !== null ? ` (残り${remaining}回)` : ""}`}
+            className={`w-full text-white font-bold py-4 rounded-2xl text-base transition-colors ${localLimitReached && !isPremium ? "bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300" : "bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300"}`}>
+            {loading
+              ? "生成中..."
+              : localLimitReached && !isPremium
+              ? "プレミアムで続けて生成する"
+              : `投稿文を生成する${!isPremium && freemiumMounted ? ` (残り${localRemaining}回無料)` : ""}`}
           </button>
           {!canGenerate && (
             <p className="text-xs text-center text-gray-400">サービス名を入力してください</p>
@@ -398,7 +423,7 @@ export default function Home() {
                 <p className="text-gray-500">Tips — 役立つ情報で拡散を狙う</p>
               </div>
               {!isPremium && (
-                <p className="text-xs text-gray-400">無料{FREE_LIMIT}回 → プレミアムで無制限</p>
+                <p className="text-xs text-gray-400">無料{SNS_FREE_MAX}回 → プレミアムで無制限</p>
               )}
             </div>
           )}
@@ -524,7 +549,9 @@ export default function Home() {
               <svg className="w-12 h-12 text-blue-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
-              <h2 className="text-xl font-bold text-gray-900 mb-2">プレミアムで無制限生成</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-2">
+                {localLimitReached ? `無料${SNS_FREE_MAX}回を使い切りました` : "プレミアムで無制限生成"}
+              </h2>
               <p className="text-gray-500 text-sm">
                 毎日の投稿ネタ切れを解消。<br />
                 サービス・商品・イベントの告知を秒で量産。
