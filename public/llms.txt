@@ -1,26 +1,27 @@
 # SNS投稿生成AI
+> X・Instagram・FacebookなどSNS投稿文をAIが自動生成するツール
 
-> サービス名と説明を入力するだけで、X・Instagram・TikTok・note・YouTube Shorts向けのバズる投稿文を30秒で5パターン自動生成するサービス
+## サービス概要
+- **カテゴリ**: マーケティングAI
+- **URL**: https://sns-post-generator.vercel.app
+- **提供形態**: Webブラウザで利用可能（登録不要で試せます）
+- **開発**: Claude Code + Next.js 16 + Vercel
 
-## 概要
-毎日のSNS投稿ネタに悩む方のために、AIが自動でバズる投稿文を生成します。サービス名と概要を入力するだけで、5つの異なるSNS媒体向けに最適化された投稿文を30秒以内に5パターン生成します。X（旧Twitter）・Instagram・TikTok・note・YouTube Shortsの5媒体に対応しています。
+## 主要ページ
+- [トップページ](https://sns-post-generator.vercel.app/): メイン機能・サービス説明
+- [ツール](https://sns-post-generator.vercel.app/tool): AI機能の利用画面（一部サービス）
+- [プライバシーポリシー](https://sns-post-generator.vercel.app/privacy): 個人情報の取り扱い
+- [特定商取引法に基づく表記](https://sns-post-generator.vercel.app/legal): 法的情報
 
-## 対象ユーザー
-SNS運用担当者、個人事業主・フリーランス、インフルエンサー・クリエイター、毎日投稿ネタに困っているすべての方
+## 利用シーン
+X・Instagram・FacebookなどSNS投稿文をAIが自動生成するツール
 
-## 主な機能
-- X・Instagram・TikTok・note・YouTube Shorts向け投稿文を同時生成
-- 30秒以内に5パターンのバズる投稿文を生成
-- サービス名と説明を入れるだけの簡単操作
-- 生成した投稿文のワンクリックコピー機能
+## 技術スタック
+- フロントエンド: Next.js 16, React 19, TypeScript, Tailwind CSS
+- AI: Claude claude-sonnet-4-6 (Anthropic)
+- バックエンド: Vercel Edge Functions, Supabase
+- 決済: KOMOJU（クレジットカード・コンビニ払い対応）
 
-## 使い方
-1. サービス名・商品名・発信したい内容を入力する
-2. 対象とするSNS媒体を選択する
-3. 「生成する」ボタンを押して30秒でバズる投稿文5パターンを受け取る
-
-## 料金
-無料で3回まで利用可能。プレミアムプランで無制限（月額980円）。
-
-## URL
-https://sns-manager-six.vercel.app
+## robots.txt
+AIクローラーによるインデックスを歓迎します。
+GPTBot, ClaudeBot, PerplexityBot, Googlebot-Extended のアクセスを許可しています。
