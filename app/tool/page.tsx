@@ -235,7 +235,7 @@ export default function Home() {
               </button>
             )}
             {isPremium && (
-              <span className="text-xs bg-green-100 text-green-700 font-bold px-3 py-1.5 rounded-full">✓ プレミアム</span>
+              <span className="text-xs bg-green-100 text-green-700 font-bold px-3 py-1.5 rounded-full">プレミアム</span>
             )}
           </div>
         </div>
@@ -565,7 +565,7 @@ export default function Home() {
                 "自分のサービスを自由に入力",
                 "5パターン同時生成",
               ].map(f => (
-                <li key={f} className="flex items-center gap-2"><span className="text-blue-500">✓</span>{f}</li>
+                <li key={f} className="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500 shrink-0" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>{f}</li>
               ))}
             </ul>
             <KomojuButton planId="standard" planLabel="プレミアムで解除する（¥980/月）" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors mb-3" />

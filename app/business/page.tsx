@@ -265,7 +265,7 @@ export default function BusinessPage() {
             {PROBLEMS.map(p => (
               <div key={p.title} className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-5">
                 <p className="font-semibold text-white mb-2 flex items-start gap-2">
-                  <span className="text-red-400 shrink-0 mt-0.5">✗</span>{p.title}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="shrink-0 mt-0.5 text-red-400" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>{p.title}
                 </p>
                 <p className="text-sm text-gray-400 flex items-start gap-2">
                   <span className="text-green-400 shrink-0 mt-0.5">→</span>{p.desc}
