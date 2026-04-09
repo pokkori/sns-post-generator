@@ -41,6 +41,20 @@ function saveHistory(items: HistoryItem[]): void {
 
 const FREE_LIMIT = 3;
 
+// 今日のお題 - 曜日ローテーション（毎日変わるリピート誘因）
+const DAILY_TOPICS = [
+  { day: 0, topic: "今週試したこと・気づいたこと", hint: "リアルな体験談は読まれやすい" },
+  { day: 1, topic: "お客様に感謝されたエピソード", hint: "信頼感を高める実績紹介" },
+  { day: 2, topic: "あなたのサービスが解決する1つの悩み", hint: "共感を呼ぶペイン訴求" },
+  { day: 3, topic: "業界の意外な豆知識", hint: "シェアされやすい情報系" },
+  { day: 4, topic: "失敗から学んだこと", hint: "正直さが共感を生む" },
+  { day: 5, topic: "今週のおすすめツール・サービス", hint: "有益情報で信頼構築" },
+  { day: 6, topic: "来週やること・目標宣言", hint: "コミュニティ感を演出" },
+];
+function getDailyTopic() {
+  return DAILY_TOPICS[new Date().getDay()];
+}
+
 const PLATFORMS = [
   { id: "X", label: "X (Twitter)", icon: "X" },
   { id: "Instagram", label: "Instagram", icon: "IG" },
@@ -269,6 +283,28 @@ export default function Home() {
                 ))}
               </div>
             )}
+
+            {/* 今日のお題バナー */}
+            {(() => {
+              const dt = getDailyTopic();
+              return (
+                <div className="mb-4 rounded-xl bg-purple-50 border border-purple-200 p-3 flex items-start gap-3">
+                  <div className="shrink-0 w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center">
+                    <svg className="w-4 h-4 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-bold text-purple-600 mb-0.5">今日のお題</p>
+                    <p className="text-sm font-semibold text-purple-900">{dt.topic}</p>
+                    <p className="text-xs text-purple-500 mt-0.5">{dt.hint}</p>
+                  </div>
+                  <button
+                    onClick={() => setServiceName(dt.topic)}
+                    className="shrink-0 text-xs bg-purple-600 text-white px-3 py-1.5 rounded-lg font-bold hover:bg-purple-700 transition-colors">
+                    使う
+                  </button>
+                </div>
+              );
+            })()}
 
             <div className="space-y-3">
               <div>
